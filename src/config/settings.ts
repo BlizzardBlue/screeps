@@ -98,6 +98,14 @@ export const settings: Settings = {
       },
       priority: 8,
       parts: [MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, MOVE, ATTACK, ATTACK]
+    },
+    claimer: {
+      population: 1,
+      initialMemory: {
+        role: 'claimer'
+      },
+      priority: 9,
+      parts: [CLAIM, CLAIM, CLAIM, MOVE, MOVE] // 1900
     }
   }
 };

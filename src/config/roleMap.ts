@@ -1,4 +1,5 @@
 import {builder} from '../roles/builder';
+import {claimer} from '../roles/claimer';
 import {cleaner} from '../roles/cleaner';
 import {harvester} from '../roles/harvester';
 import {miner} from '../roles/miner';
@@ -23,5 +24,6 @@ export const roleMap: RoleMap = {
   pioneer: pioneer,
   remoteRepairer: remoteRepairer,
   repairer: repairer,
-  upgrader: upgrader
+  upgrader: upgrader,
+  claimer: claimer
 };

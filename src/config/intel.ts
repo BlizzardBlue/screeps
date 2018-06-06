@@ -30,6 +30,7 @@ interface Intel {
     mining: {
       rooms: string[];
     };
+    reservation: string[];
   };
 }
 
@@ -84,6 +85,7 @@ export const intel: Intel = {
   expansion: {
     mining: {
       rooms: ['W2N7']
-    }
+    },
+    reservation: ['W2N7']
   }
 };
