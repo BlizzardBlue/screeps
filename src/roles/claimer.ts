@@ -7,9 +7,7 @@ export const claimer = {
     const targetFlag: Flag = Game.flags.claimerTarget;
     if (!creep.memory.arrived) {
       navigate.toFlag(targetFlag);
-    }
-
-    if (creep.reserveController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+    } else if (creep.reserveController(creep.room.controller) === ERR_NOT_IN_RANGE) {
       creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
     }
   }
