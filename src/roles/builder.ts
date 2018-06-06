@@ -1,7 +1,7 @@
 import {intel} from '../config/intel';
 
 export const builder = {
-  run: (creep: any) => { // TODO: any 대신 크립
+  run: (creep: Creep) => {
     if (creep.memory.building && creep.carry.energy === 0) {
       creep.memory.building = false;
       creep.say('⛏️', true);
@@ -23,7 +23,7 @@ export const builder = {
 
     if (!creep.memory.building) {
       // find closest container
-      const container: StructureContainer = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+      const container: any = creep.pos.findClosestByPath(FIND_STRUCTURES, { // TODO: any 개선
         filter: (s: any) => {
           return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 100;
         }

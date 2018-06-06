@@ -4,7 +4,7 @@ import {Repair} from '../works/repair';
 
 export const remoteRepairer = {
   // a function to run the logic for this role
-  run: (creep: any) => { // TODO: any 개선
+  run: (creep: Creep) => {
     const repair: Repair = new Repair(creep);
     const targetFlag = Game.flags.pioneerTarget; // TODO: 개선
     // const targetRoom = targetFlag.room;

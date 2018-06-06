@@ -1,7 +1,7 @@
 import {intel} from '../config/intel';
 
 export const remoteMiner = {
-  run: (creep: any) => {
+  run: (creep: Creep) => {
     // const targetRoomId = intel.expansion.mining.rooms[0];
     // const targetRoomIntel = intel.rooms[targetRoomId];
     // const targetRoom = targetRoomIntel.object;

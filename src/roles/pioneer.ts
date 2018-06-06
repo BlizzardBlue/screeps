@@ -2,7 +2,7 @@ import {intel} from '../config/intel';
 import {storageModel} from '../models/storage';
 
 export const pioneer = {
-  run: (creep: any) => { // TODO: any 대신 제대로 타이핑
+  run: (creep: Creep) => {
     const targetFlag = Game.flags.pioneerTarget;
     const entrance = intel.rooms.home.entrance.roomPosition;
 

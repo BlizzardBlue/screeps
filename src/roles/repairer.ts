@@ -1,8 +1,7 @@
 import {intel} from '../config/intel';
 
 export const repairer = {
-  // a function to run the logic for this role
-  run: (creep: any) => { // TODO: any 개선
+  run: (creep: Creep) => {
     // if creep is trying to repair something but has no energy left
     if (creep.memory.repairing && creep.carry.energy === 0) {
       creep.say('⛏️', true);
@@ -57,7 +56,7 @@ export const repairer = {
         }
       } else {
         // find closest source
-        const source = Game.getObjectById(intel.rooms.home.sources.secondary.id); // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+        const source = Game.getObjectById(intel.rooms.home.sources.secondary.id) as Source; // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it

@@ -4,7 +4,7 @@ import {intel} from '../config/intel';
 import {storageModel} from '../models/storage';
 
 export const remoteHarvester = {
-  run: (creep: any) => { // TODO: any 개선
+  run: (creep: Creep) => {
     const targetRoomId = intel.expansion.mining.rooms[0];
     const targetRoomIntel = intel.rooms[targetRoomId];
     // const targetRoom = targetRoomIntel.object;
@@ -49,7 +49,7 @@ export const remoteHarvester = {
       if (creep.room.name !== targetRoomIntel.name) {
         creep.moveTo(targetRoomIntel.sources.primary.roomPosition, {visualizePathStyle: {stroke: '#ffaa00'}});
       } else {
-        const source = Game.getObjectById(targetRoomIntel.sources.primary.id);
+        const source = Game.getObjectById(targetRoomIntel.sources.primary.id) as Source;
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
         }

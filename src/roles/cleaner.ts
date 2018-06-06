@@ -3,7 +3,7 @@ const _ = require('lodash');
 import {storageModel} from '../models/storage';
 
 export const cleaner = {
-  run: (creep: any) => { // TODO: any 대신 크립
+  run: (creep: Creep) => {
     if (creep.memory.cleaning && _.sum(creep.carry) === creep.carryCapacity) {
       creep.memory.cleaning = false;
       creep.say(storageModel.transferText, true);
@@ -24,7 +24,7 @@ export const cleaner = {
 
       if (tombstone) {
         for (const resourceType of Object.keys(tombstone.store)) {
-          if (creep.withdraw(tombstone, resourceType) === ERR_NOT_IN_RANGE) {
+          if (creep.withdraw(tombstone, resourceType as ResourceConstant) === ERR_NOT_IN_RANGE) {
             creep.moveTo(tombstone, {visualizePathStyle: {stroke: '#ffaa00'}});
           }
         }

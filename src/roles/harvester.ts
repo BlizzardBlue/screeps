@@ -2,7 +2,7 @@ import {intel} from '../config/intel';
 import {storageModel} from '../models/storage';
 
 export const harvester = {
-    run: (creep: any) => { // TODO: any 대신 크립
+    run: (creep: Creep) => {
         if (creep.memory.harvesting && creep.carry.energy === creep.carryCapacity) {
             creep.memory.harvesting = false;
             creep.say('📦', true);
@@ -33,7 +33,7 @@ export const harvester = {
                     creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}});
                 }
             } else {
-                const source = Game.getObjectById(intel.rooms.home.sources.primary.id); // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+                const source = Game.getObjectById(intel.rooms.home.sources.primary.id) as Source; // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
                 // try to harvest energy, if the source is not in range
                 if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
                     // move towards it

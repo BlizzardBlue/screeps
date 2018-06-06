@@ -2,7 +2,7 @@ import {intel} from '../config/intel';
 // import {storageModel} from '../models/storage';
 
 export const upgrader = {
-  run: (creep: any) => { // TODO: any 개선
+  run: (creep: Creep) => {
 
     if (creep.memory.upgrading && creep.carry.energy === 0) {
       creep.memory.upgrading = false;
@@ -33,7 +33,7 @@ export const upgrader = {
         }
       } else {
         // find closest source
-        const source = Game.getObjectById(intel.rooms.home.sources.primary.id); // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+        const source = Game.getObjectById(intel.rooms.home.sources.primary.id) as Source; // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
