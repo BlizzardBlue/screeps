@@ -9,10 +9,12 @@
     "build": "rollup -c",
     "push-main": "rollup -c --environment DEST:main",
     "push-pserver": "rollup -c --environment DEST:pserver",
+    "push-pserver-dev": "rollup -c --environment DEST:pserver-dev",
     "push-sim": "rollup -c --environment DEST:sim",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-main": "rollup -cw --environment DEST:main",
     "watch-pserver": "rollup -cw --environment DEST:pserver",
+    "watch-pserver-dev": "rollup -cw --environment DEST:pserver-dev",
     "watch-sim": "rollup -cw --environment DEST:sim"
   },
   "repository": {

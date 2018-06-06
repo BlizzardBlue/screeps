@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Deploy Private Server" type="js.build_tools.npm" factoryName="npm">
+  <configuration default="false" name="[dev] Deploy Private Server" type="js.build_tools.npm" factoryName="npm">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
-      <script value="push-pserver" />
+      <script value="push-pserver-dev" />
     </scripts>
     <node-interpreter value="project" />
     <envs />
