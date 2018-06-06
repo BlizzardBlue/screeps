@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "target": "es5",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "baseUrl": "src/",
+    "sourceMap": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "noImplicitReturns": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "pretty": true,
+    "removeComments": false,
+    "strictNullChecks": false
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
