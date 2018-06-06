@@ -9,9 +9,9 @@ import {remoteRepairer} from '../roles/remoteRepairer';
 import {repairer} from '../roles/repairer';
 import {upgrader} from '../roles/upgrader';
 
-export type RoleMap = {
+interface RoleMap {
   [creepType: string]: any;
-};
+}
 
 export const roleMap: RoleMap = {
   builder: builder,

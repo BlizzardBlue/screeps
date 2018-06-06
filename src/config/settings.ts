@@ -1,4 +1,4 @@
-export type Settings = {
+interface Settings {
   mode: string;
   creep: {
     [creepType: string]: {
@@ -8,7 +8,7 @@ export type Settings = {
       parts: BodyPartConstant[];
     };
   };
-};
+}
 
 export const settings: Settings = {
   mode: 'normal', // ['normal','harvest','build','upgrade']
@@ -38,7 +38,7 @@ export const settings: Settings = {
       parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE]
     },
     builder: {
-      population: 1,
+      population: 0,
       initialMemory: {
         role: 'builder',
         building: false
