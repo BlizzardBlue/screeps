@@ -23,8 +23,7 @@ export const repairer = {
         // a property called filter which can be a function
         // we use the arrow operator to define it
         filter: (s: any) => {
-          return s.hits < s.hitsMax && s.structureType === STRUCTURE_ROAD;
-          // return s.hits < s.hitsMax && s.structureType !== STRUCTURE_WALL;
+          return s.hits < s.hitsMax && s.structureType !== STRUCTURE_WALL;
         }
       });
 
