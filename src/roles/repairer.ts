@@ -2,6 +2,8 @@ import {intel} from '../config/intel';
 
 export const repairer = {
   run: (creep: Creep) => {
+    const home = creep.memory.home;
+
     // if creep is trying to repair something but has no energy left
     if (creep.memory.repairing && creep.carry.energy === 0) {
       creep.say('⛏️', true);
@@ -9,6 +11,7 @@ export const repairer = {
       creep.memory.repairing = false;
     } else if (!creep.memory.repairing && creep.carry.energy === creep.carryCapacity) {
       // switch state
+      creep.say('💊', true);
       creep.memory.repairing = true;
     }
 
@@ -22,17 +25,17 @@ export const repairer = {
         // a property called filter which can be a function
         // we use the arrow operator to define it
         filter: (s: any) => {
-          return s.hits < s.hitsMax && s.structureType !== STRUCTURE_WALL;
+          return s.hits < s.hitsMax && s.structureType !== STRUCTURE_WALL && s.structureType !== STRUCTURE_RAMPART;
         }
       });
 
       // if we find one
-      if (structure !== undefined) {
+      if (structure !== null) {
         creep.say('💊', true);
         // try to repair it, if it is out of range
         if (creep.repair(structure) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffaa00'}});
+          creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
         }
       }
       // // if we can't fine one
@@ -48,19 +51,19 @@ export const repairer = {
         }
       });
       // if one was found
-      if (container !== undefined) {
+      if (container !== null) {
         // try to withdraw energy, if the container is not in range
         if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(container);
+          creep.moveTo(container, {reusePath: 0});
         }
       } else {
         // find closest source
-        const source = Game.getObjectById(intel.rooms.home.sources.secondary.id) as Source; // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+        const source = Game.getObjectById(intel.rooms[home].sources.secondary.id) as Source; // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(source);
+          creep.moveTo(source, {reusePath: 0});
         }
       }
     }

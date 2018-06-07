@@ -5,5 +5,7 @@
 // add your custom typings here
 declare interface CreepMemory {
   role: string;
+  home: string;
+  spawn: string;
   [anything: string]: any;
 }

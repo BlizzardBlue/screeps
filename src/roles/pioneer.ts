@@ -1,16 +1,18 @@
 import {intel} from '../config/intel';
-import {storageModel} from '../models/storage';
+import {StorageModel} from '../models/StorageModel';
 
 export const pioneer = {
   run: (creep: Creep) => {
+    const home = creep.memory.home;
+    const storageModel: StorageModel = new StorageModel(creep);
     const targetFlag = Game.flags.pioneerTarget;
-    const entrance = intel.rooms.home.entrance.roomPosition;
+    const entrance = intel.rooms[home].entrance.roomPosition;
 
     // Attack
     const attackTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (attackTarget) {
       if (creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(attackTarget);
+        creep.moveTo(attackTarget, {reusePath: 0});
       }
       return;
     }
@@ -40,7 +42,7 @@ export const pioneer = {
     if (creep.memory.harvesting) {
       const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
       if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
         return;
       }
     }
@@ -55,21 +57,21 @@ export const pioneer = {
     }
 
     if (!creep.memory.ready && !creep.memory.harvesting) {
-      if (creep.room.name !== intel.rooms.home.name) {
-        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}});
+      if (creep.room.name !== intel.rooms[home].name) {
+        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
       } else {
-        storageModel.withdraw(creep, 'energy');
+        storageModel.withdraw('energy');
       }
     }
 
     if (creep.memory.ready) {
       if (!creep.memory.arrived) {
-        creep.moveTo(targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}});
+        creep.moveTo(targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
       } else {
-        const buildTargets = creep.room.find(FIND_CONSTRUCTION_SITES);
-        if (buildTargets.length) {
-          if (creep.build(buildTargets[0]) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(buildTargets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+        const target: ConstructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+        if (target) {
+          if (creep.build(target) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 0});
           }
         }
       }

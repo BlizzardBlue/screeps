@@ -19,6 +19,14 @@ interface Intel {
           y: number;
         };
       };
+      mineral?: {
+        id: string;
+        type: RESOURCE_UTRIUM | RESOURCE_LEMERGIUM | RESOURCE_KEANIUM | RESOURCE_GHODIUM | RESOURCE_ZYNTHIUM | RESOURCE_OXYGEN | RESOURCE_HYDROGEN | RESOURCE_CATALYST;
+        density: number;
+        seats: number;
+        x: number;
+        y: number;
+      };
       entrance?: {
         roomPosition: RoomPosition;
         x: number;
@@ -36,7 +44,7 @@ interface Intel {
 
 export const intel: Intel = {
   rooms: {
-    home: {
+    W1N7: {
       name: 'W1N7',
       object: Game.rooms.W1N7,
       entrance: {
@@ -59,6 +67,14 @@ export const intel: Intel = {
           x: 15,
           y: 24
         }
+      },
+      mineral: {
+        id: '766c6164dd1fb19',
+        type: RESOURCE_UTRIUM,
+        density: DENSITY_MODERATE,
+        seats: 3,
+        x: 18,
+        y: 35
       }
     },
     W2N7: {
@@ -78,6 +94,26 @@ export const intel: Intel = {
           seats: 4,
           x: 14,
           y: 14
+        }
+      }
+    },
+    W3N7: {
+      name: 'W3N7',
+      object: Game.rooms.W3N7,
+      sources: {
+        primary: {
+          id: 'eee50774086309c',
+          roomPosition: new RoomPosition(38, 3, 'W3N7'),
+          seats: 4,
+          x: 38,
+          y: 3
+        },
+        secondary: {
+          id: 'eff307740862fd8',
+          roomPosition: new RoomPosition(12, 21, 'W3N7'),
+          seats: 4,
+          x: 12,
+          y: 21
         }
       }
     }

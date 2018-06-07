@@ -2,7 +2,8 @@ import {intel} from '../config/intel';
 
 export const miner2 = {
   run: (creep: Creep) => {
-    const source = Game.getObjectById(intel.rooms.home.sources.secondary.id) as Source;
+    const home = creep.memory.home;
+    const source = Game.getObjectById(intel.rooms[home].sources.secondary.id) as Source;
     // 소스 옆에 붙은 컨테이너 가져옴
     const container = source.pos.findInRange(FIND_STRUCTURES, 1, {
       filter: (s: any) => {
@@ -15,7 +16,7 @@ export const miner2 = {
       // 채굴 시작
       creep.harvest(source);
     } else {
-      creep.moveTo(container);
+      creep.moveTo(container, {reusePath: 0});
     }
   }
 };

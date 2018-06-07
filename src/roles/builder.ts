@@ -1,7 +1,11 @@
+import {Repair} from '../actions/repair';
 import {intel} from '../config/intel';
 
 export const builder = {
   run: (creep: Creep) => {
+    const home = creep.memory.home;
+    const repair: Repair = new Repair(creep);
+
     if (creep.memory.building && creep.carry.energy === 0) {
       creep.memory.building = false;
       creep.say('⛏️', true);
@@ -13,10 +17,10 @@ export const builder = {
     }
 
     if (creep.memory.building) {
-      const targets: ConstructionSite[] = creep.room.find(FIND_CONSTRUCTION_SITES);
-      if (targets.length) {
-        if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+      const target: ConstructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+      if (target) {
+        if (creep.build(target) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 0});
         }
       }
     }
@@ -30,19 +34,19 @@ export const builder = {
       });
 
       // if one was found
-      if (container !== undefined) {
+      if (container !== null) {
         // try to withdraw energy, if the container is not in range
         if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(container);
+          creep.moveTo(container, {reusePath: 0});
         }
       } else {
         // find closest source
-        const source = Game.getObjectById(intel.rooms.home.sources.secondary.id) as Source; // let source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+        const source = Game.getObjectById(intel.rooms[home].sources.secondary.id) as Source; // let source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(source);
+          creep.moveTo(source, {reusePath: 0});
         }
       }
     }

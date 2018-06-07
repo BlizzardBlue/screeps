@@ -16,18 +16,31 @@ export const loop = () => {
     }
   }
 
-  // 크립 생산
-  for (const creepType of Object.keys(settings.creep)) {
-    const creepSetting = settings.creep[creepType];
-    // 타입이 같고, 살아있는 크립의 수 계산
-    const liveCreeps = _.filter(Game.creeps, (creep: any) => {
-      return creep.memory.role === creepType;
-    });
-    if (liveCreeps.length < creepSetting.population) {
-      const newName = `${creepType}_${Game.time}`;
-      Game.spawns.Spawn1.spawnCreep(creepSetting.parts, newName, {
-        memory: creepSetting.initialMemory
-      }); // TODO: 스폰이 2개 이상인 상황도 대응하도록 개선
+  // 설정으로 등록해둔 방에서 크립 생산
+  for (const roomName of Object.keys(settings.rooms)) {
+    const roomSetting = settings.rooms[roomName];
+    const spawnName = roomSetting.spawn.name;
+
+    for (const creepType of Object.keys(roomSetting.creep)) {
+      const creepSetting = roomSetting.creep[creepType];
+
+      // 타입이 같고 && 고향이 같고 && 살아있는 크립의 수 계산
+      const liveCreeps = _.filter(Game.creeps, (creep: any) => {
+        return creep.memory.role === creepType && creep.memory.home === roomName;
+      });
+
+      // 설정해둔 개체수 목표치 이하면 생산
+      if (liveCreeps.length < creepSetting.population) {
+        const newName = `${creepType}_${roomName}_${Game.time}`;
+        // 메모리에 정보 추가
+        const additionalMemory = {
+          home: roomName,
+          spawn: spawnName
+        };
+        Game.spawns[spawnName].spawnCreep(creepSetting.parts, newName, {
+          memory: _.merge(additionalMemory, creepSetting.initialMemory)
+        });
+      }
     }
   }
 
@@ -51,17 +64,24 @@ export const loop = () => {
       tower.attack(closestHostile);
     }
   }
-  const tower2 = Game.getObjectById('5b14bb351dca9e002421adaa') as StructureTower;
+  const tower2 = Game.getObjectById('5b186b836c39f600211ac970') as StructureTower;
   if (tower2) {
     const closestHostile = tower2.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (closestHostile) {
       tower2.attack(closestHostile);
     }
+  }
+  const tower3 = Game.getObjectById('5b14bb351dca9e002421adaa') as StructureTower;
+  if (tower3) {
+    const closestHostile = tower3.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    if (closestHostile) {
+      tower3.attack(closestHostile);
+    }
 
-    // let closestDamagedStructure = tower2.pos.findClosestByRange(FIND_STRUCTURES, {
+    // const closestDamagedStructure = tower2.pos.findClosestByRange(FIND_STRUCTURES, {
     //     filter: (structure) => structure.hits < structure.hitsMax
     // });
-    // if(closestDamagedStructure) {
+    // if (closestDamagedStructure) {
     //     tower2.repair(closestDamagedStructure);
     // }
   }
@@ -71,4 +91,5 @@ export const loop = () => {
     const creep = Game.creeps[name];
     roleMap[creep.memory.role].run(creep);
   }
+  console.log(Game.cpu.getUsed());
 };

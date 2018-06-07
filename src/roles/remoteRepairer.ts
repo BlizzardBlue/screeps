@@ -1,25 +1,25 @@
 // import {intel} from '../config/intel';
-import {storageModel} from '../models/storage';
-import {Repair} from '../works/repair';
+import {StorageModel} from '../models/StorageModel';
+import {Repair} from '../actions/repair';
 
 export const remoteRepairer = {
-  // a function to run the logic for this role
   run: (creep: Creep) => {
+    const storageModel: StorageModel = new StorageModel(creep);
     const repair: Repair = new Repair(creep);
-    const targetFlag = Game.flags.pioneerTarget; // TODO: 개선
+    const targetFlag = Game.flags.remoteRepairTarget; // TODO: 개선
     // const targetRoom = targetFlag.room;
 
     // Attack
     const attackTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (attackTarget) {
       if (creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(attackTarget);
+        creep.moveTo(attackTarget, {reusePath: 0});
       }
       return;
     }
 
     if (!creep.memory.ready) {
-      storageModel.withdraw(creep, 'energy');
+      storageModel.withdraw('energy');
     }
 
     if (creep.carry.energy === 0) {
@@ -47,7 +47,7 @@ export const remoteRepairer = {
     if (creep.memory.harvesting) {
       const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
       if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
         return;
       }
     }
@@ -62,7 +62,7 @@ export const remoteRepairer = {
 
     if (creep.memory.ready) {
       if (!creep.memory.arrived) {
-        creep.moveTo(targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}});
+        creep.moveTo(targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
       } else {
         repair.room();
         return;
