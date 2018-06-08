@@ -8,6 +8,11 @@ export const capitolMiner = {
     const navigate: Navigate = new Navigate(creep);
     const roomMemoryModel: RoomMemoryModel = new RoomMemoryModel(capitolRoomName, creep);
 
+    // 인베이더가 침입하면 집으로 도망감
+    if (Memory.rooms[capitolRoomName].invader) {
+      return navigate.fromCapitoltoHome();
+    }
+
     if (creep.memory.reservedSourceId) {
       // 공격받기 시작하거나 3틱안에 수명이 다하면 소스 예약 해제
       if (creep.hits < creep.hitsMax || creep.ticksToLive < 3) {

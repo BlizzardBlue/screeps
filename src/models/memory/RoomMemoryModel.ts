@@ -11,7 +11,6 @@ export class RoomMemoryModel {
 
   // 룸 메모리 초기화
   public initializeMemory(): void {
-    // 처음 오는 방일경우 빈 Object로 메모리 할당
     if (_.isUndefined(Memory.rooms[this.roomName].sources)) {
       Memory.rooms[this.roomName].sources = {};
     }

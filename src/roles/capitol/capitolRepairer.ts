@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
 import {Repair} from '../../actions/repair';
+import {intel} from '../../config/intel';
 import {StorageModel} from '../../models/StorageModel';
 import {Navigate} from '../../utils/Navigate';
 
@@ -9,6 +10,12 @@ export const capitolRepairer = {
     const storageModel: StorageModel = new StorageModel(creep);
     const repair: Repair = new Repair(creep);
     const navigate: Navigate = new Navigate(creep);
+    const capitolRoomName: string = intel.alias.capitol.roomName;
+
+    // 인베이더가 침입하면 집으로 도망감
+    if (Memory.rooms[capitolRoomName].invader) {
+      return navigate.fromCapitoltoHome();
+    }
 
     if (!creep.memory.ready) {
       storageModel.withdraw('energy');

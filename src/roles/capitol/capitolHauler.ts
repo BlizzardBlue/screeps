@@ -10,9 +10,10 @@ export const capitolHauler = {
     const navigate: Navigate = new Navigate(creep);
     const capitolRoomName: string = intel.alias.capitol.roomName;
 
-    // 인베이더나 적군이 들어오면 집으로 도망감
-    if (creep.room.name === capitolRoomName) {
-      creep.memory.retreat = Game.rooms[capitolRoomName].memory.invader || Game.rooms[capitolRoomName].memory.invader;
+    // 인베이더가 침입하면 집으로 도망감
+    if (Memory.rooms[capitolRoomName].invader) {
+      creep.say('🆘', true);
+      return navigate.fromCapitoltoHome();
     }
 
     // TODO: 모듈화

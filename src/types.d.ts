@@ -21,11 +21,13 @@ declare interface RoomMemorySource {
 }
 
 declare interface RoomMemory {
-  sources: {
+  name: string;
+  sources?: {
     [id: string]: RoomMemorySource;
   };
-  invader: boolean;
-  hostile: boolean;
+  invader?: boolean;
+  invaderExpireAt?: number;
+  hostile?: boolean;
 }
 
 declare interface SpawnQueueItem {

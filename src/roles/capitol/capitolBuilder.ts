@@ -7,6 +7,12 @@ export const capitolBuilder = {
     const home = creep.memory.home;
     const storageModel: StorageModel = new StorageModel(creep);
     const navigate: Navigate = new Navigate(creep);
+    const capitolRoomName: string = intel.alias.capitol.roomName;
+
+    // 인베이더가 침입하면 집으로 도망감
+    if (Memory.rooms[capitolRoomName].invader) {
+      return navigate.fromCapitoltoHome();
+    }
 
     if (creep.carry.energy === 0) {
       if (creep.memory.arrived && creep.memory.ready) {

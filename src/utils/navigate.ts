@@ -38,14 +38,14 @@ export class Navigate {
       this.creep.memory.waypoint2Arrived = true;
     }
 
-    if (this.creep.memory.waypoint2Arrived && !this.creep.memory.waypointArrived && this.creep.pos.inRangeTo(this.capitolWaypointFlag, 1)) {
+    if (!this.creep.memory.waypointArrived && this.creep.pos.inRangeTo(this.capitolWaypointFlag, 1)) {
       this.creep.memory.waypointArrived = true;
     }
 
-    if (this.creep.memory.waypoint2Arrived && this.creep.memory.waypointArrived && !this.creep.memory.arrived && this.creep.pos.inRangeTo(this.homeEntrance, 2)) {
+    if (!this.creep.memory.arrived && this.creep.pos.inRangeTo(this.homeEntrance, 2)) {
       this.creep.memory.waypointArrived = false;
       this.creep.memory.waypoint2Arrived = false;
-      this.creep.memory.arrived = false;
+      this.creep.memory.arrived = true;
       this.creep.say('귀환!', true);
     }
 
@@ -64,15 +64,15 @@ export class Navigate {
 
   // W5N5에 있는 캐피톨로 이동
   public toCapitol(): any {
-    if (!this.creep.memory.waypointArrived && !this.creep.memory.arrived && this.creep.pos.inRangeTo(this.capitolWaypointFlag, 3)) {
+    if (!this.creep.memory.waypointArrived && this.creep.pos.inRangeTo(this.capitolWaypointFlag, 3)) {
       this.creep.memory.waypointArrived = true;
     }
 
-    if (this.creep.memory.waypointArrived && !this.creep.memory.waypoint2Arrived && !this.creep.memory.arrived && this.creep.pos.inRangeTo(this.capitolWaypoint2Flag, 1)) {
+    if (!this.creep.memory.waypoint2Arrived && this.creep.pos.inRangeTo(this.capitolWaypoint2Flag, 1)) {
       this.creep.memory.waypoint2Arrived = true;
     }
 
-    if (this.creep.memory.waypointArrived && this.creep.memory.waypoint2Arrived && !this.creep.memory.arrived && this.creep.pos.inRangeTo(this.capitolEntrance, 3)) {
+    if (!this.creep.memory.arrived && this.creep.pos.inRangeTo(this.capitolEntrance, 3)) {
       this.creep.memory.arrived = true;
       this.creep.say('도착!', true);
     }
@@ -88,5 +88,10 @@ export class Navigate {
     if (!this.creep.memory.arrived) {
       return this.creep.moveTo(this.capitolEntrance, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 1});
     }
+  }
+
+  // 비상시 캐피톨 근처 피난처로 이동
+  public toCapitolSafeRoom(): any {
+    return this.creep.moveTo(this.capitolWaypointFlag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 1});
   }
 }

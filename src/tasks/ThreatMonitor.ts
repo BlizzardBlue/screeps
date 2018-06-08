@@ -12,7 +12,14 @@ export class ThreatMonitor {
     const invader = this.room.find(FIND_HOSTILE_CREEPS, {
       filter: creep => creep.owner.username === 'Invader'
     });
-    this.room.memory.invader = !_.isEmpty(invader);
+    const alert: boolean = !_.isEmpty(invader);
+    const invaderExpireAt = this.room.memory.invaderExpireAt;
+    if (alert) {
+      this.room.memory.invader = true;
+    }
+    if (alert && !invaderExpireAt) {
+      this.room.memory.invaderExpireAt = Game.time + 1500;
+    }
   }
 
   // 적군 경계

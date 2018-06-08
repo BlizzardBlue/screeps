@@ -1,3 +1,5 @@
+import {RoomMemoryInitializer} from './tasks/RoomMemoryInitializer';
+
 const _ = require('lodash');
 // import {ErrorMapper} from 'utils/ErrorMapper';
 
@@ -6,7 +8,8 @@ import {settings} from 'config/settings';
 import {systemSettings} from './config/systemSettings';
 
 import {SpawnQueue} from './queues/SpawnQueue';
-import {ThreatMonitor} from './tasks/threatMonitor';
+import {ThreatMonitor} from './tasks/ThreatMonitor';
+import {ThreatMonitorHelper} from './tasks/ThreatMonitorHelper';
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
@@ -22,8 +25,15 @@ export const loop = () => {
 
   // Tasks 실행
   for (const roomName of Object.keys(Game.rooms)) {
+    const roomMemoryInitializer: RoomMemoryInitializer = new RoomMemoryInitializer(Game.rooms[roomName]);
+    roomMemoryInitializer.initialize();
     const threatMonitor: ThreatMonitor = new ThreatMonitor(Game.rooms[roomName]);
     threatMonitor.invader();
+    threatMonitor.hostile();
+  }
+  for (const roomName of Object.keys(Memory.rooms)) {
+    const threatMonitorHelper: ThreatMonitorHelper = new ThreatMonitorHelper(Memory.rooms[roomName]);
+    threatMonitorHelper.validateInvaderExpireAt();
   }
 
   // 설정으로 등록해둔 방에서 크립 생산
