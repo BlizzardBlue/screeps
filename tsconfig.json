@@ -8,7 +8,7 @@
     "sourceMap": true,
     "strict": true,
     "experimentalDecorators": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "pretty": true,
