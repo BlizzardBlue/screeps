@@ -163,17 +163,17 @@ export const W3N7: RoomSettings = {
       parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1050
     },
     capitolRepairer: {
-      population: 0,
+      population: 1,
       initialMemory: {
         role: 'capitolRepairer',
         class: 'repairer',
         arrived: false
       },
       priority: 12,
-      parts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE] // 600
+      parts: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
     },
     capitolDefender: {
-      population: 2,
+      population: 3,
       initialMemory: {
         role: 'capitolDefender',
         class: 'dealer',

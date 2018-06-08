@@ -16,13 +16,14 @@ export const capitolHauler = {
     }
 
     // TODO: 모듈화
-    // 수명이 600틱 이하로 남았으면 recycle
-    if (creep.ticksToLive <= 600 && creep.memory.return && creep.room.name === 'W3N7') {
+    // 수명이 550틱 이하로 남았으면 recycle
+    if (creep.ticksToLive <= 550 && creep.memory.return && creep.room.name === 'W3N7') {
       creep.say('♻️', true);
       const spawn2: StructureSpawn = Game.spawns.Spawn2;
       const renewResult = spawn2.recycleCreep(creep);
       switch (renewResult) {
         case OK:
+          console.log(`[Spawn|${spawn2.name}] Recycled: ${creep.name}`);
           break;
         case ERR_BUSY:
           creep.moveTo(spawn2, {reusePath: 1});
@@ -61,15 +62,22 @@ export const capitolHauler = {
       creep.memory.return = false;
     }
 
-    // 캐피톨 도착하면 컨테이너에서 에너지 수거
+    // 캐피톨 도착하면 떨어진 에너지 / 컨테이너 에너지 수거
     if (!creep.memory.return && creep.memory.arrived) {
       // TODO: 모듈화
+      const droppedResource = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
+        filter: resource => resource.amount > 400
+      });
       const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
         filter: (s: any) => {
-          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 650;
+          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 450;
         }
       });
-      if (!_.isNull(container)) {
+      if (!_.isNull(droppedResource)) {
+        if (creep.pickup(droppedResource) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        }
+      } else if (!_.isNull(container)) {
         if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           creep.moveTo(container, {reusePath: 1});
         }

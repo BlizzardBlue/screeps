@@ -7,7 +7,7 @@ export const W1N7: RoomSettings = {
   },
   creep: {
     harvester: {
-      population: 4,
+      population: 3,
       initialMemory: {
         role: 'harvester',
         class: 'harvester'
@@ -133,24 +133,25 @@ export const W1N7: RoomSettings = {
       parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE] // 1150
     },
     capitolRepairer: {
-      population: 2,
+      population: 0,
       initialMemory: {
         role: 'capitolRepairer',
         class: 'repairer',
         arrived: false
       },
       priority: 12,
-      parts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE] // 600
+      parts: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
     },
     capitolDefender: {
-      population: 2,
+      population: 1,
       initialMemory: {
         role: 'capitolDefender',
         class: 'dealer',
         arrived: false
       },
       priority: 12,
-      parts: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK] // 1550
+      parts: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK] // 1290
+      // parts: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK] // 1550
     },
     capitolHealer: {
       population: 4,

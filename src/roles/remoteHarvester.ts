@@ -30,7 +30,7 @@ export const remoteHarvester = {
         if (_.sum(creep.carry) > 0) {
           storageModel.transfer();
         } else {
-          console.log(`Suicide: ${creep.name}`);
+          console.log(`[Creep] Suicide: ${creep.name}`);
           creep.suicide();
         }
       }
