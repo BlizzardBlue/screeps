@@ -17,7 +17,7 @@ export const mineralMiner = {
       // 미네랄 채굴 시작
       creep.harvest(mineral);
     } else {
-      creep.moveTo(container, {reusePath: 0});
+      creep.moveTo(container, {reusePath: 1});
     }
   }
 };

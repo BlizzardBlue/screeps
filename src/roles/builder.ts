@@ -20,7 +20,7 @@ export const builder = {
       const target: ConstructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
       if (target) {
         if (creep.build(target) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 0});
+          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
         }
       }
     }
@@ -38,7 +38,7 @@ export const builder = {
         // try to withdraw energy, if the container is not in range
         if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(container, {reusePath: 0});
+          creep.moveTo(container, {reusePath: 1});
         }
       } else {
         // find closest source
@@ -46,7 +46,7 @@ export const builder = {
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(source, {reusePath: 0});
+          creep.moveTo(source, {reusePath: 1});
         }
       }
     }

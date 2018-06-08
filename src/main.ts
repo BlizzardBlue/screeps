@@ -3,6 +3,10 @@ const _ = require('lodash');
 
 import {roleMap} from 'config/roleMap';
 import {settings} from 'config/settings';
+import {systemSettings} from './config/systemSettings';
+
+import {SpawnQueue} from './queues/SpawnQueue';
+import {ThreatMonitor} from './tasks/threatMonitor';
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
@@ -12,8 +16,14 @@ export const loop = () => {
   for (const name of Object.keys(Memory.creeps)) {
     if (!(name in Game.creeps)) {
       delete Memory.creeps[name];
-      console.log('Cleared non-existing creep memory:', name);
+      console.log(`[Task] Cleared non-existing creep memory: ${name}`);
     }
+  }
+
+  // Tasks 실행
+  for (const roomName of Object.keys(Game.rooms)) {
+    const threatMonitor: ThreatMonitor = new ThreatMonitor(Game.rooms[roomName]);
+    threatMonitor.invader();
   }
 
   // 설정으로 등록해둔 방에서 크립 생산
@@ -33,6 +43,7 @@ export const loop = () => {
       if (liveCreeps.length < creepSetting.population) {
         const newName = `${creepType}_${roomName}_${Game.time}`;
         // 메모리에 정보 추가
+        // TODO: 추가하는 방식 개선 (큐에서 애매함)
         const additionalMemory = {
           home: roomName,
           spawn: spawnName
@@ -86,10 +97,33 @@ export const loop = () => {
     // }
   }
 
+  // 스폰 큐 소비
+  for (const spawnName of Object.keys(Game.spawns)) {
+    const spawnQueue: SpawnQueue = new SpawnQueue(spawnName);
+    const spawn: StructureSpawn = Game.spawns[spawnName];
+    const roomName: string = spawn.room.name;
+
+    if (!spawn.spawning) {
+      const newCreep = spawnQueue.consume();
+      if (newCreep) {
+        const role: string = newCreep.initialMemory.role;
+        newCreep.name = newCreep.name || `${role}_${roomName}_${Game.time}`;
+        Game.spawns[spawnName].spawnCreep(newCreep.parts, newCreep.name, {
+          memory: newCreep.initialMemory
+        });
+        console.log(`[Queue|${spawnName}] Consumed: ${newCreep.name}`);
+      }
+    }
+  }
+
   // 크립 run()
   for (const name of Object.keys(Game.creeps)) {
     const creep = Game.creeps[name];
     roleMap[creep.memory.role].run(creep);
   }
-  console.log(Game.cpu.getUsed());
+
+  // 시스템 설정
+  if (systemSettings.metric) {
+    console.log(`[CPU] ${Game.cpu.getUsed().toPrecision(3)}% | [Memory] ${Game.cpu.getHeapStatistics().total_heap_size / 1024} KB`);
+  }
 };

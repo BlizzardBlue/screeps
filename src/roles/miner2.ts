@@ -16,7 +16,7 @@ export const miner2 = {
       // 채굴 시작
       creep.harvest(source);
     } else {
-      creep.moveTo(container, {reusePath: 0});
+      creep.moveTo(container, {reusePath: 1});
     }
   }
 };

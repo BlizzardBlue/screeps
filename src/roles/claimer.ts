@@ -1,5 +1,5 @@
 import {intel} from '../config/intel';
-import {Navigate} from '../utils/navigate';
+import {Navigate} from '../utils/Navigate';
 
 export const claimer = {
   run: (creep: Creep) => {
@@ -18,7 +18,7 @@ export const claimer = {
       case OK:
         break;
       case ERR_NOT_IN_RANGE:
-        creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 0});
+        creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
         break;
       default:
         creep.say(`Err: ${claimResult}`, true);

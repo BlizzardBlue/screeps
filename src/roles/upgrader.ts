@@ -16,7 +16,7 @@ export const upgrader = {
 
     if (creep.memory.upgrading) {
       if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 0});
+        creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
       }
     } else {
       // find closest container
@@ -30,7 +30,7 @@ export const upgrader = {
         // try to withdraw energy, if the container is not in range
         if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+          creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
         }
       } else {
         // find closest source
@@ -38,12 +38,12 @@ export const upgrader = {
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+          creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
         }
       }
       // var source = Game.getObjectById(intel.rooms[home].sources.primary.id);
       // if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
-      //     creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+      //     creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       // }
     }
   }

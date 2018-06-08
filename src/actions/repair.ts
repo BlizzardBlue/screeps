@@ -34,7 +34,7 @@ export class Repair {
       case ERR_INVALID_TARGET:
         break;
       case ERR_NOT_IN_RANGE:
-        this.creep.moveTo(rampart, {reusePath: 0});
+        this.creep.moveTo(rampart, {reusePath: 1});
         break;
       default:
         this.creep.say(`Err: ${repairResult}`);
@@ -58,7 +58,7 @@ export class Repair {
       case ERR_INVALID_TARGET:
         return false;
       case ERR_NOT_IN_RANGE:
-        this.creep.moveTo(wall, {reusePath: 0});
+        this.creep.moveTo(wall, {reusePath: 1});
         return true;
       default:
         this.creep.say(`Err: ${repairResult}`);

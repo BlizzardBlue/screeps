@@ -35,7 +35,8 @@
     "no-var-requires": false,
     "no-require-imports": false,
     "no-non-null-assertion": false,
-    "cyclomatic-complexity": false
+    "cyclomatic-complexity": false,
+    "max-func-body-length": false
   }
 }
 

@@ -1,7 +1,14 @@
 import {builder} from '../roles/builder';
+import {capitolBuilder} from '../roles/capitolBuilder';
+import {capitolDefender} from '../roles/capitolDefender';
+import {capitolHauler} from '../roles/capitolHauler';
+import {capitolHealer} from '../roles/capitolHealer';
+import {capitolMiner} from '../roles/capitolMiner';
+import {capitolRepairer} from '../roles/capitolRepairer';
 import {claimer} from '../roles/claimer';
 import {cleaner} from '../roles/cleaner';
 import {defender} from '../roles/defender';
+import {explorer} from '../roles/explorer';
 import {harvester} from '../roles/harvester';
 import {miner} from '../roles/miner';
 import {miner2} from '../roles/miner2';
@@ -19,9 +26,16 @@ interface RoleMap {
 
 export const roleMap: RoleMap = {
   builder: builder,
+  capitolBuilder: capitolBuilder,
+  capitolDefender: capitolDefender,
+  capitolHauler: capitolHauler,
+  capitolHealer: capitolHealer,
+  capitolMiner: capitolMiner,
+  capitolRepairer: capitolRepairer,
   claimer: claimer,
   cleaner: cleaner,
   defender: defender,
+  explorer: explorer,
   harvester: harvester,
   miner: miner,
   miner2: miner2,

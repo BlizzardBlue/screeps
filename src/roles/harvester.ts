@@ -33,14 +33,14 @@ export const harvester = {
         // try to withdraw energy, if the container is not in range
         if (creep.withdraw(container, 'energy') === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+          creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
         }
       } else {
         const source = Game.getObjectById(intel.rooms[home].sources.primary.id) as Source; // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(source, {reusePath: 0});
+          creep.moveTo(source, {reusePath: 1});
         }
       }
       // var source = coreIntel.room1.sources.primary.object;
@@ -63,7 +63,7 @@ export const harvester = {
       });
       if (target) {
         if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 0});
+          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
         }
       } else {
         creep.moveTo(36, 25);

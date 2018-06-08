@@ -26,11 +26,11 @@ export const cleaner = {
       if (tombstone) {
         for (const resourceType of Object.keys(tombstone.store)) {
           if (creep.withdraw(tombstone, resourceType as ResourceConstant) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(tombstone, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+            creep.moveTo(tombstone, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 2});
           }
         }
       } else if (creep.pickup(droppedResource) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+        creep.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 2});
       } else if (!tombstone && !droppedResource) {
         storageModel.transfer();
       }
@@ -47,7 +47,7 @@ export const cleaner = {
         });
         if (container) {
           if (creep.transfer(container, 'energy') === ERR_NOT_IN_RANGE) {
-            creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+            creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 2});
           }
         }
       }

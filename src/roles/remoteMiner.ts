@@ -1,5 +1,5 @@
 import {intel} from '../config/intel';
-import {Navigate} from '../utils/navigate';
+import {Navigate} from '../utils/Navigate';
 
 export const remoteMiner = {
   run: (creep: Creep) => {
@@ -22,7 +22,7 @@ export const remoteMiner = {
         creep.harvest(source);
       } else {
         // move towards it
-        creep.moveTo(container, {reusePath: 0});
+        creep.moveTo(container, {reusePath: 1});
       }
     } else {
       navigate.toRoom(targetRoomName);

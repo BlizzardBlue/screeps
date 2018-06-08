@@ -16,7 +16,7 @@ export const remoteHarvester = {
     const attackTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (attackTarget) {
       if (creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(attackTarget, {reusePath: 0});
+        creep.moveTo(attackTarget, {reusePath: 1});
       }
       return;
     }
@@ -25,7 +25,7 @@ export const remoteHarvester = {
       creep.memory.mining = false;
       creep.say(`☠️ (${creep.ticksToLive})`, true);
       if (creep.room.name !== intel.rooms[home].name) {
-        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
         return;
       } else {
         if (_.sum(creep.carry) > 0) {
@@ -49,18 +49,18 @@ export const remoteHarvester = {
 
     if (creep.memory.mining) {
       if (creep.room.name !== targetRoomIntel.name) {
-        creep.moveTo(targetRoomIntel.sources.primary.roomPosition, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+        creep.moveTo(targetRoomIntel.sources.primary.roomPosition, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       } else {
         const source = Game.getObjectById(targetRoomIntel.sources.primary.id) as Source;
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+          creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
         }
       }
     }
 
     if (!creep.memory.mining) {
       if (creep.room.name !== intel.rooms[home].name) {
-        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 0});
+        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       } else {
         storageModel.transfer();
       }

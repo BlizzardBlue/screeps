@@ -1,7 +1,11 @@
 interface Intel {
+  alias: {
+    [key: string]: any;
+  };
   rooms: {
     [roomName: string]: {
       name: string;
+      alias?: string;
       object: Room;
       sources?: {
         primary: {
@@ -12,6 +16,13 @@ interface Intel {
           y: number;
         };
         secondary?: {
+          id: string;
+          roomPosition: RoomPosition;
+          seats: number;
+          x: number;
+          y: number;
+        };
+        tertiary?: {
           id: string;
           roomPosition: RoomPosition;
           seats: number;
@@ -43,9 +54,15 @@ interface Intel {
 }
 
 export const intel: Intel = {
+  alias: {
+    capitol: {
+      roomName: 'W5N5'
+    }
+  },
   rooms: {
     W1N7: {
       name: 'W1N7',
+      alias: 'headquarter',
       object: Game.rooms.W1N7,
       entrance: {
         roomPosition: new RoomPosition(36, 26, 'W1N7'),
@@ -100,6 +117,11 @@ export const intel: Intel = {
     W3N7: {
       name: 'W3N7',
       object: Game.rooms.W3N7,
+      entrance: {
+        roomPosition: new RoomPosition(35, 27, 'W3N7'),
+        x: 35,
+        y: 27
+      },
       sources: {
         primary: {
           id: 'eee50774086309c',
@@ -115,6 +137,47 @@ export const intel: Intel = {
           x: 12,
           y: 21
         }
+      }
+    },
+    W5N5: {
+      name: 'W5N5',
+      alias: 'capitol',
+      object: Game.rooms.W5N5,
+      entrance: {
+        roomPosition: new RoomPosition(47, 31, 'W5N5'),
+        x: 47,
+        y: 31
+      },
+      sources: {
+        primary: {
+          id: 'f43c07734e2574c',
+          roomPosition: new RoomPosition(46, 15, 'W5N5'),
+          seats: 5,
+          x: 46,
+          y: 15
+        },
+        secondary: {
+          id: 'a7a007734e22c6e',
+          roomPosition: new RoomPosition(12, 33, 'W5N5'),
+          seats: 3,
+          x: 12,
+          y: 33
+        },
+        tertiary: {
+          id: '03a407734e2b07f',
+          roomPosition: new RoomPosition(5, 5, 'W5N5'),
+          seats: 2,
+          x: 5,
+          y: 5
+        }
+      },
+      mineral: {
+        id: '766c6164dd1fb19',
+        type: RESOURCE_UTRIUM,
+        density: DENSITY_MODERATE,
+        seats: 3,
+        x: 18,
+        y: 35
       }
     }
   },
