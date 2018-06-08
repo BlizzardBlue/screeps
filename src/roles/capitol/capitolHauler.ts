@@ -1,8 +1,8 @@
 const _ = require('lodash');
 
-import {intel} from '../config/intel';
-import {StorageModel} from '../models/StorageModel';
-import {Navigate} from '../utils/Navigate';
+import {intel} from '../../config/intel';
+import {StorageModel} from '../../models/StorageModel';
+import {Navigate} from '../../utils/Navigate';
 
 export const capitolHauler = {
   run: (creep: Creep) => {

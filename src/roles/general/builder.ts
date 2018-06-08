@@ -1,5 +1,5 @@
-import {Repair} from '../actions/repair';
-import {intel} from '../config/intel';
+import {Repair} from '../../actions/repair';
+import {intel} from '../../config/intel';
 
 export const builder = {
   run: (creep: Creep) => {

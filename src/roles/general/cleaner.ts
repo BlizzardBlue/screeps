@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-import {StorageModel} from '../models/StorageModel';
+import {StorageModel} from '../../models/StorageModel';
 
 export const cleaner = {
   run: (creep: Creep) => {

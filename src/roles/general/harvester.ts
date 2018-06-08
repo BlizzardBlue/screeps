@@ -1,10 +1,10 @@
-import {intel} from '../config/intel';
-import {StorageModel} from '../models/StorageModel';
+import {intel} from '../../config/intel';
+import {StorageModel} from '../../models/StorageModel';
 
-export const remoteHauler = {
+export const harvester = {
   run: (creep: Creep) => {
-    const home = creep.memory.home;
     const storageModel: StorageModel = new StorageModel(creep);
+    const home = creep.memory.home;
 
     if (creep.memory.harvesting && creep.carry.energy === creep.carryCapacity) {
       creep.memory.harvesting = false;
@@ -43,14 +43,22 @@ export const remoteHauler = {
           creep.moveTo(source, {reusePath: 1});
         }
       }
+      // var source = coreIntel.room1.sources.primary.object;
+      // if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
+      //     creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
+      // }
+      // } else if (creep.carry.energy === creep.carryCapacity) {
+      //     creep.moveTo(34, 23);
     }
 
     if (!creep.memory.harvesting) {
       const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-        filter: (s: any) => { // TODO: any 대신 제대로 타이핑
-          return (s.structureType === STRUCTURE_EXTENSION ||
-            s.structureType === STRUCTURE_SPAWN ||
-            s.structureType === STRUCTURE_TOWER) && s.energy < s.energyCapacity;
+        filter: (structure: any) => { // TODO: any 대신 제대로 타이핑
+          // return (structure.structureType === STRUCTURE_EXTENSION ||
+          //     structure.structureType === STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
+          return (structure.structureType === STRUCTURE_EXTENSION ||
+            structure.structureType === STRUCTURE_SPAWN ||
+            structure.structureType === STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
         }
       });
       if (target) {

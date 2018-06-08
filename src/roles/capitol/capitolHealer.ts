@@ -1,8 +1,8 @@
-import {settings} from '../config/settings';
+import {settings} from '../../config/settings';
 
-import {Heal} from '../actions/Heal';
-import {SpawnQueue} from '../queues/SpawnQueue';
-import {Navigate} from '../utils/Navigate';
+import {Heal} from '../../actions/Heal';
+import {SpawnQueue} from '../../queues/SpawnQueue';
+import {Navigate} from '../../utils/Navigate';
 
 export const capitolHealer = {
   run: (creep: Creep) => {

@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
-import {intel} from '../config/intel';
-import {StorageModel} from '../models/StorageModel';
+import {intel} from '../../config/intel';
+import {StorageModel} from '../../models/StorageModel';
 
 export const remoteHarvester = {
   run: (creep: Creep) => {

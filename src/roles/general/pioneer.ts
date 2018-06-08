@@ -1,12 +1,21 @@
-import {intel} from '../config/intel';
-import {StorageModel} from '../models/StorageModel';
-import {Navigate} from '../utils/Navigate';
+import {intel} from '../../config/intel';
+import {StorageModel} from '../../models/StorageModel';
 
-export const capitolBuilder = {
+export const pioneer = {
   run: (creep: Creep) => {
     const home = creep.memory.home;
     const storageModel: StorageModel = new StorageModel(creep);
-    const navigate: Navigate = new Navigate(creep);
+    const targetFlag = Game.flags.pioneerTarget;
+    const entrance = intel.rooms[home].entrance.roomPosition;
+
+    // Attack
+    // const attackTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    // if (attackTarget) {
+    //   if (creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
+    //     creep.moveTo(attackTarget, {reusePath: 1});
+    //   }
+    //   return;
+    // }
 
     if (creep.carry.energy === 0) {
       if (creep.memory.arrived && creep.memory.ready) {
@@ -31,25 +40,10 @@ export const capitolBuilder = {
     }
 
     if (creep.memory.harvesting) {
-      // TODO: 모듈화
-      // find closest container
-      const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-        filter: (s: any) => {
-          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 100;
-        }
-      });
-      // if one was found
-      if (container !== null) {
-        // try to withdraw energy, if the container is not in range
-        if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          // move towards it
-          creep.moveTo(container, {reusePath: 1});
-        }
-      } else {
-        const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-        if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          return creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
-        }
+      const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+      if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        return;
       }
     }
 
@@ -57,16 +51,22 @@ export const capitolBuilder = {
       creep.memory.ready = true;
     }
 
-    // 출발 전 에너지 채우기
+    if (creep.memory.ready && !creep.memory.arrived && creep.pos.isEqualTo(targetFlag.pos)) {
+      creep.say('도착!', true);
+      creep.memory.arrived = true;
+    }
+
     if (!creep.memory.ready && !creep.memory.harvesting) {
-      if (creep.room.name === intel.rooms[home].name) {
+      if (creep.room.name !== intel.rooms[home].name) {
+        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+      } else {
         storageModel.withdraw('energy');
       }
     }
 
     if (creep.memory.ready) {
       if (!creep.memory.arrived) {
-        return navigate.toCapitol();
+        creep.moveTo(targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       } else {
         const target: ConstructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
         if (target) {

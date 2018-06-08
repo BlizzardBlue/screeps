@@ -1,6 +1,6 @@
-import {intel} from '../config/intel';
-import {RoomMemoryModel} from '../models/memory/RoomMemoryModel';
-import {Navigate} from '../utils/Navigate';
+import {intel} from '../../config/intel';
+import {RoomMemoryModel} from '../../models/memory/RoomMemoryModel';
+import {Navigate} from '../../utils/Navigate';
 
 export const capitolMiner = {
   run: (creep: Creep) => {

@@ -1,4 +1,4 @@
-import {intel} from '../config/intel';
+import {intel} from '../../config/intel';
 
 export const repairer = {
   run: (creep: Creep) => {

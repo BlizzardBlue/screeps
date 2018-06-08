@@ -1,4 +1,4 @@
-import {intel} from '../config/intel';
+import {intel} from '../../config/intel';
 // import {StorageModel} from '../models/storage';
 
 export const upgrader = {

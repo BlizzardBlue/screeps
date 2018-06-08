@@ -1,5 +1,5 @@
-import {intel} from '../config/intel';
-import {Navigate} from '../utils/Navigate';
+import {intel} from '../../config/intel';
+import {Navigate} from '../../utils/Navigate';
 // import {StorageModel} from '../models/StorageModel';
 
 export const explorer = {

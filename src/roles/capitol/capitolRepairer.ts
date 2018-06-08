@@ -1,22 +1,14 @@
-// import {intel} from '../config/intel';
-import {Repair} from '../actions/repair';
-import {StorageModel} from '../models/StorageModel';
+const _ = require('lodash');
 
-export const remoteRepairer = {
+import {Repair} from '../../actions/repair';
+import {StorageModel} from '../../models/StorageModel';
+import {Navigate} from '../../utils/Navigate';
+
+export const capitolRepairer = {
   run: (creep: Creep) => {
     const storageModel: StorageModel = new StorageModel(creep);
     const repair: Repair = new Repair(creep);
-    const targetFlag = Game.flags.remoteRepairTarget; // TODO: 개선
-    // const targetRoom = targetFlag.room;
-
-    // Attack
-    const attackTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if (attackTarget) {
-      if (creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(attackTarget, {reusePath: 1});
-      }
-      return;
-    }
+    const navigate: Navigate = new Navigate(creep);
 
     if (!creep.memory.ready) {
       storageModel.withdraw('energy');
@@ -45,10 +37,25 @@ export const remoteRepairer = {
     }
 
     if (creep.memory.harvesting) {
-      const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-      if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
-        return;
+      // TODO: 모듈화
+      // find closest container
+      const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+        filter: (s: any) => {
+          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 300;
+        }
+      });
+      // if one was found
+      if (!_.isNull(container)) {
+        // try to withdraw energy, if the container is not in range
+        if (creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+          // move towards it
+          creep.moveTo(container, {reusePath: 1});
+        }
+      } else {
+        const source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+        if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
+          return creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        }
       }
     }
 
@@ -62,16 +69,10 @@ export const remoteRepairer = {
 
     if (creep.memory.ready) {
       if (!creep.memory.arrived) {
-        creep.moveTo(targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        return navigate.toCapitol();
       } else {
-        repair.room();
-        return;
+        return repair.room();
       }
-    }
-
-    if (creep.memory.ready && !creep.memory.arrived && creep.pos.isEqualTo(targetFlag.pos)) {
-      creep.say('도착!', true);
-      creep.memory.arrived = true;
     }
   }
 };

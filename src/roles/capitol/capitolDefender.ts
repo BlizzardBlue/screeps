@@ -1,8 +1,8 @@
-import {settings} from '../config/settings';
+import {settings} from '../../config/settings';
 
-import {Attack} from '../actions/Attack';
-import {SpawnQueue} from '../queues/SpawnQueue';
-import {Navigate} from '../utils/Navigate';
+import {Attack} from '../../actions/Attack';
+import {SpawnQueue} from '../../queues/SpawnQueue';
+import {Navigate} from '../../utils/Navigate';
 
 export const capitolDefender = {
   run: (creep: Creep) => {
