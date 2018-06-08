@@ -25,8 +25,7 @@ export const remoteHarvester = {
       creep.memory.mining = false;
       creep.say(`☠️ (${creep.ticksToLive})`, true);
       if (creep.room.name !== intel.rooms[home].name) {
-        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
-        return;
+        return creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       } else {
         if (_.sum(creep.carry) > 0) {
           storageModel.transfer();
