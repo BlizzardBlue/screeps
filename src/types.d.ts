@@ -7,10 +7,12 @@ declare interface CreepMemory {
   role: string;
   home: string;
   spawn: string;
+  dispatch: boolean;
+  dispatchSite?: string;
   [anything: string]: any;
   reservedSourceId?: string;
   arrived?: boolean;
-  retreat?: boolean;
+  underEvacuation?: boolean;
   return?: boolean;
 }
 

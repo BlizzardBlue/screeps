@@ -1,14 +1,22 @@
-export const defender = {
-  run: (creep: Creep) => {
+import {GeneralRole} from './GeneralRole';
 
+/**
+ * 룸 방어용 크립
+ */
+export class Defender extends GeneralRole {
+  constructor(creep: Creep) {
+    super(creep);
+  }
+
+  public run() {
     // Attack
-    const target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    const target = this.creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (target) {
-      if (creep.attack(target) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(target, {reusePath: 1});
+      if (this.creep.attack(target) === ERR_NOT_IN_RANGE) {
+        this.creep.moveTo(target, {reusePath: 1});
       }
     } else {
-      creep.moveTo(30, 25, {reusePath: 1});
+      this.creep.moveTo(30, 25, {reusePath: 1});
     }
   }
-};
+}

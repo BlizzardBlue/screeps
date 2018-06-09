@@ -1,20 +1,15 @@
-const _ = require('lodash');
-
-import {Repair} from '../../actions/repair';
 import {intel} from '../../config/intel';
 import {StorageModel} from '../../models/StorageModel';
 import {CapitolRole} from './CapitolRole';
 
-export class CapitolRepairer extends CapitolRole {
+export class CapitolBuilder extends CapitolRole {
   public capitolRoomName: string;
   private storageModel: StorageModel;
-  private repair: Repair;
 
   constructor(creep: Creep) {
     super(creep);
     this.capitolRoomName = intel.alias.capitol.roomName;
     this.storageModel = new StorageModel(creep);
-    this.repair = new Repair(creep);
   }
 
   public run() {
@@ -48,10 +43,6 @@ export class CapitolRepairer extends CapitolRole {
     //   creep.memory.underEvacuation = false;
     // }
 
-    if (!this.creep.memory.ready) {
-      this.storageModel.withdraw('energy');
-    }
-
     if (this.creep.carry.energy === 0) {
       if (this.creep.memory.arrived && this.creep.memory.ready) {
         // find closest source
@@ -79,11 +70,11 @@ export class CapitolRepairer extends CapitolRole {
       // find closest container
       const container = this.creep.pos.findClosestByPath(FIND_STRUCTURES, {
         filter: (s: any) => {
-          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 300;
+          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 100;
         }
       });
       // if one was found
-      if (!_.isNull(container)) {
+      if (container !== null) {
         // try to withdraw energy, if the container is not in range
         if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
@@ -101,15 +92,23 @@ export class CapitolRepairer extends CapitolRole {
       this.creep.memory.ready = true;
     }
 
-    if (!this.creep.memory.ready && this.creep.carry.energy === this.creep.carryCapacity) {
-      this.creep.memory.ready = true;
+    // 출발 전 에너지 채우기
+    if (!this.creep.memory.ready && !this.creep.memory.harvesting) {
+      if (this.creep.room.name === intel.rooms[this.home].name) {
+        this.storageModel.withdraw('energy');
+      }
     }
 
     if (this.creep.memory.ready) {
       if (!this.creep.memory.arrived) {
         return this.navigate.toCapitol();
       } else {
-        return this.repair.room();
+        const target: ConstructionSite = this.creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+        if (target) {
+          if (this.creep.build(target) === ERR_NOT_IN_RANGE) {
+            this.creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+          }
+        }
       }
     }
   }

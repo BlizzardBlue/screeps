@@ -1,16 +1,23 @@
-import {intel} from '../../config/intel';
 import {Navigate} from '../../utils/Navigate';
+import {GeneralRole} from './GeneralRole';
 
-export const reserver = {
-  run: (creep: Creep) => {
-    const navigate: Navigate = new Navigate(creep);
+/**
+ * 룸 예약용 크립
+ */
+export class Reserver extends GeneralRole {
+  constructor(creep: Creep) {
+    super(creep);
+  }
+
+  public run() {
+    const navigate: Navigate = new Navigate(this.creep);
     const targetFlag: Flag = Game.flags.reserverTarget;
-    if (!creep.memory.arrived) {
+    if (!this.creep.memory.arrived) {
       navigate.toFlag(targetFlag);
       return;
     }
-    if (creep.reserveController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-      creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+    if (this.creep.reserveController(this.creep.room.controller) === ERR_NOT_IN_RANGE) {
+      this.creep.moveTo(this.creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
     }
   }
-};
+}

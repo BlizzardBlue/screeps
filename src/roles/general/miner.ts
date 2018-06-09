@@ -1,10 +1,16 @@
 import {intel} from '../../config/intel';
+import {GeneralRole} from './GeneralRole';
 
-export const miner = {
-  run: (creep: Creep) => {
-    const home = creep.memory.home;
+/**
+ * 채굴 전문가
+ */
+export class Miner extends GeneralRole {
+  constructor(creep: Creep) {
+    super(creep);
+  }
 
-    const source = Game.getObjectById(intel.rooms[home].sources.primary.id) as Source;
+  public run() {
+    const source = Game.getObjectById(intel.rooms[this.home].sources.primary.id) as Source;
     // 소스 옆에 붙은 컨테이너 가져옴
     const container = source.pos.findInRange(FIND_STRUCTURES, 1, {
       filter: (s: any) => {
@@ -13,11 +19,11 @@ export const miner = {
     })[0];
 
     // 크립이 컨테이너에 올라가면
-    if (creep.pos.isEqualTo(container.pos)) {
+    if (this.creep.pos.isEqualTo(container.pos)) {
       // 채굴 시작
-      creep.harvest(source);
+      this.creep.harvest(source);
     } else {
-      creep.moveTo(container, {reusePath: 1});
+      this.creep.moveTo(container, {reusePath: 1});
     }
   }
-};
+}

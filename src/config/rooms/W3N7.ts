@@ -37,7 +37,7 @@ export const W3N7: RoomSettings = {
       population: 0,
       initialMemory: {
         role: 'builder',
-      class: 'builder',
+        class: 'builder',
         building: false
       },
       priority: 1,
@@ -56,7 +56,7 @@ export const W3N7: RoomSettings = {
       population: 1,
       initialMemory: {
         role: 'repairer',
-      class: 'repairer',
+        class: 'repairer',
         repairing: false
       },
       priority: 2,
@@ -72,7 +72,7 @@ export const W3N7: RoomSettings = {
       parts: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1250
     },
     cleaner: {
-      population: 1,
+      population: 2,
       initialMemory: {
         role: 'cleaner',
         class: 'cleaner',
@@ -103,7 +103,7 @@ export const W3N7: RoomSettings = {
     //   parts: [MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, MOVE, MOVE, MOVE]
     // },
     claimer: {
-      population: 1,
+      population: 0,
       initialMemory: {
         role: 'claimer',
         class: 'claimer'

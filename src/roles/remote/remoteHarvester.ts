@@ -2,67 +2,76 @@ const _ = require('lodash');
 
 import {intel} from '../../config/intel';
 import {StorageModel} from '../../models/StorageModel';
+import {RemoteRole} from './RemoteRole';
 
-export const remoteHarvester = {
-  run: (creep: Creep) => {
-    const home = creep.memory.home;
-    const storageModel: StorageModel = new StorageModel(creep);
-    const targetRoomId = intel.expansion.mining.rooms[0];
-    const targetRoomIntel = intel.rooms[targetRoomId];
-    // const targetRoom = targetRoomIntel.object;
-    const entrance = intel.rooms[home].entrance.roomPosition;
+export class RemoteHarvester extends RemoteRole {
+  public targetFlag: Flag;
+  public targetRoomName: string;
+  public targetRoomIntel: any;
+  private storageModel: StorageModel;
+
+  constructor(creep: Creep) {
+    super(creep);
+    this.targetFlag = Game.flags.remoteRepairTarget;
+    this.targetRoomName = intel.expansion.mining.rooms[0];
+    this.targetRoomIntel = intel.rooms[this.targetRoomName];
+    this.storageModel = new StorageModel(creep);
+  }
+
+  public run() {
+    const entrance = intel.rooms[this.home].entrance.roomPosition;
 
     // Attack
-    const attackTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+    const attackTarget = this.creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (attackTarget) {
-      if (creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(attackTarget, {reusePath: 1});
+      if (this.creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
+        this.creep.moveTo(attackTarget, {reusePath: 1});
       }
       return;
     }
 
-    if (creep.ticksToLive < 50) {
-      creep.memory.mining = false;
-      creep.say(`☠️ (${creep.ticksToLive})`, true);
-      if (creep.room.name !== intel.rooms[home].name) {
-        return creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+    if (this.creep.ticksToLive < 50) {
+      this.creep.memory.mining = false;
+      this.creep.say(`☠️ (${this.creep.ticksToLive})`, true);
+      if (this.creep.room.name !== intel.rooms[this.home].name) {
+        return this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       } else {
-        if (_.sum(creep.carry) > 0) {
-          storageModel.transfer();
+        if (_.sum(this.creep.carry) > 0) {
+          this.storageModel.transfer();
         } else {
-          console.log(`[Creep] Suicide: ${creep.name}`);
-          creep.suicide();
+          console.log(`[Creep] Suicide: ${this.creep.name}`);
+          this.creep.suicide();
         }
       }
     }
 
-    if (creep.memory.mining && creep.carry.energy === creep.carryCapacity) {
-      creep.memory.mining = false;
-      creep.say(storageModel.transferText, true);
+    if (this.creep.memory.mining && this.creep.carry.energy === this.creep.carryCapacity) {
+      this.creep.memory.mining = false;
+      this.creep.say(this.storageModel.transferText, true);
     }
 
-    if (!creep.memory.mining && creep.carry.energy === 0) {
-      creep.memory.mining = true;
-      creep.say('⚠️⛏️출장간다!', true);
+    if (!this.creep.memory.mining && this.creep.carry.energy === 0) {
+      this.creep.memory.mining = true;
+      this.creep.say('⚠️⛏️출장간다!', true);
     }
 
-    if (creep.memory.mining) {
-      if (creep.room.name !== targetRoomIntel.name) {
-        creep.moveTo(targetRoomIntel.sources.primary.roomPosition, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+    if (this.creep.memory.mining) {
+      if (this.creep.room.name !== this.targetRoomIntel.name) {
+        this.creep.moveTo(this.targetRoomIntel.sources.primary.roomPosition, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       } else {
-        const source = Game.getObjectById(targetRoomIntel.sources.primary.id) as Source;
-        if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        const source = Game.getObjectById(this.targetRoomIntel.sources.primary.id) as Source;
+        if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
+          this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
         }
       }
     }
 
-    if (!creep.memory.mining) {
-      if (creep.room.name !== intel.rooms[home].name) {
-        creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+    if (!this.creep.memory.mining) {
+      if (this.creep.room.name !== intel.rooms[this.home].name) {
+        this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
       } else {
-        storageModel.transfer();
+        this.storageModel.transfer();
       }
     }
   }
-};
+}

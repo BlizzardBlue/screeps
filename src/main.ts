@@ -1,14 +1,13 @@
-import {RoomMemoryInitializer} from './tasks/RoomMemoryInitializer';
-
 const _ = require('lodash');
 // import {ErrorMapper} from 'utils/ErrorMapper';
 
-import {roleMap} from 'config/roleMap';
 import {settings} from 'config/settings';
+import {roleMap} from 'roles/roleMap';
 import {systemSettings} from './config/systemSettings';
 
 import {intel} from './config/intel';
 import {SpawnQueue} from './queues/SpawnQueue';
+import {RoomMemoryInitializer} from './tasks/RoomMemoryInitializer';
 import {ThreatMonitor} from './tasks/ThreatMonitor';
 import {ThreatMonitorHelper} from './tasks/ThreatMonitorHelper';
 
@@ -85,33 +84,27 @@ export const loop = () => {
   }
 
   // 타워 관련
-  const tower = Game.getObjectById('5b132f1de77af90020399c2f') as StructureTower;
-  if (tower) {
-    const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if (closestHostile) {
-      tower.attack(closestHostile);
+  // TODO: 코드 개선
+  const towerIds: string[] = [
+    '5b132f1de77af90020399c2f',
+    '5b186b836c39f600211ac970',
+    '5b1b075d8b2122002511e982',
+    '5b14bb351dca9e002421adaa'
+  ];
+  for (const towerId of towerIds) {
+    const tower = Game.getObjectById(towerId) as StructureTower;
+    if (tower) {
+      const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+      if (closestHostile) {
+        tower.attack(closestHostile);
+        // const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+        //   filter: (structure) => structure.hits < structure.hitsMax
+        // });
+        // if (closestDamagedStructure) {
+        //   tower.repair(closestDamagedStructure);
+        // }
+      }
     }
-  }
-  const tower2 = Game.getObjectById('5b186b836c39f600211ac970') as StructureTower;
-  if (tower2) {
-    const closestHostile = tower2.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if (closestHostile) {
-      tower2.attack(closestHostile);
-    }
-  }
-  const tower3 = Game.getObjectById('5b14bb351dca9e002421adaa') as StructureTower;
-  if (tower3) {
-    const closestHostile = tower3.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if (closestHostile) {
-      tower3.attack(closestHostile);
-    }
-
-    // const closestDamagedStructure = tower2.pos.findClosestByRange(FIND_STRUCTURES, {
-    //     filter: (structure) => structure.hits < structure.hitsMax
-    // });
-    // if (closestDamagedStructure) {
-    //     tower2.repair(closestDamagedStructure);
-    // }
   }
 
   // 스폰 큐 소비
@@ -135,8 +128,12 @@ export const loop = () => {
 
   // 크립 run()
   for (const name of Object.keys(Game.creeps)) {
-    const creep = Game.creeps[name];
-    roleMap[creep.memory.role].run(creep);
+    const creepClass = roleMap[Game.creeps[name].memory.role];
+    const creep = new creepClass(Game.creeps[name]);
+    const runResult = creep.run();
+    if (runResult !== 0 && !_.isUndefined(runResult)) {
+      console.log(new Error(`creepName: ${name} / Errorcode: ${runResult}`));
+    }
   }
 
   // 시스템 설정
@@ -145,7 +142,7 @@ export const loop = () => {
   }
   if (systemSettings.metricAlert) {
     if (Game.cpu.getUsed() >= 100) {
-      console.log(`[Alert | CPU] ${Game.cpu.getUsed().toPrecision(3)}`);
+      console.log(`[Alert | CPU] ${Game.cpu.getUsed().toPrecision(3)} (Bucket: ${Game.cpu.bucket})`);
     }
   }
 };

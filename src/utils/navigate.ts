@@ -15,6 +15,7 @@ export class Navigate {
     this.capitolWaypoint2Flag = Game.flags.capitolWaypoint2;
   }
 
+  // 플래그로 이동
   public toFlag(flag: Flag): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND | void {
     if (!this.creep.pos.isEqualTo(flag.pos)) {
       return this.creep.moveTo(flag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
@@ -23,6 +24,7 @@ export class Navigate {
     }
   }
 
+  // 방으로 이동
   public toRoom(roomName: string): any {
     const route = Game.map.findRoute(this.creep.room.name, roomName) as any; // TODO: 타이핑 개선
     if (route.length > 0) {
@@ -32,9 +34,22 @@ export class Navigate {
     }
   }
 
+  // 집으로 귀환
+  public toHome(): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND {
+    const homeName: string = this.creep.memory.home;
+    const homeCenter = new RoomPosition(25, 25, homeName);
+    return this.creep.moveTo(homeCenter, {reusePath: 1});
+  }
+
+  // 파견지로 이동
+  public toDispatchSite(): any {
+    const dispatchSite: string = this.creep.memory.dispatchSite;
+    return this.toRoom(dispatchSite);
+  }
+
   // 캐피톨에서 집으로 귀환
   public fromCapitoltoHome(): any {
-    if (this.creep.memory.retreat && this.creep.memory.arrived && this.creep.memory.waypointArrived && this.creep.memory.waypoint2Arrived) {
+    if (this.creep.memory.underEvacuation && this.creep.memory.arrived && this.creep.memory.waypointArrived && this.creep.memory.waypoint2Arrived) {
       this.creep.memory.waypointArrived = false;
       this.creep.memory.waypoint2Arrived = false;
       this.creep.memory.arrived = false;
