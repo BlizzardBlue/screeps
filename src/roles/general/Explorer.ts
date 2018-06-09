@@ -1,4 +1,4 @@
-import {Navigate} from '../../utils/Navigate';
+import {Navigate} from '../../actions/Navigate';
 import {GeneralRole} from './GeneralRole';
 
 /**

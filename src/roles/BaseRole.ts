@@ -1,4 +1,4 @@
-import {Navigate} from '../utils/Navigate';
+import {Navigate} from '../actions/Navigate';
 
 /**
  * 크립 최상위 부모 클래스

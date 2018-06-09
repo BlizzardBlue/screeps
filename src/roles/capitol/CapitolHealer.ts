@@ -3,7 +3,7 @@ import {settings} from '../../config/settings';
 import {Heal} from '../../actions/Heal';
 import {intel} from '../../config/intel';
 import {SpawnQueue} from '../../queues/SpawnQueue';
-import {Navigate} from '../../utils/Navigate';
+import {Navigate} from '../../actions/Navigate';
 import {CapitolRole} from './CapitolRole';
 
 export class CapitolHealer extends CapitolRole {

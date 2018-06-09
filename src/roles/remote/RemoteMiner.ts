@@ -1,5 +1,5 @@
 import {intel} from '../../config/intel';
-import {Navigate} from '../../utils/Navigate';
+import {Navigate} from '../../actions/Navigate';
 
 export const remoteMiner = {
   run: (creep: Creep) => {
