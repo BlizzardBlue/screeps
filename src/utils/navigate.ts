@@ -34,7 +34,13 @@ export class Navigate {
 
   // 캐피톨에서 집으로 귀환
   public fromCapitoltoHome(): any {
-    if (!this.creep.memory.waypoint2Arrived && this.creep.pos.inRangeTo(this.capitolWaypoint2Flag, 3)) {
+    if (this.creep.memory.retreat && this.creep.memory.arrived && this.creep.memory.waypointArrived && this.creep.memory.waypoint2Arrived) {
+      this.creep.memory.waypointArrived = false;
+      this.creep.memory.waypoint2Arrived = false;
+      this.creep.memory.arrived = false;
+    }
+
+    if (!this.creep.memory.waypoint2Arrived && this.creep.pos.inRangeTo(this.capitolWaypoint2Flag, 1)) {
       this.creep.memory.waypoint2Arrived = true;
     }
 

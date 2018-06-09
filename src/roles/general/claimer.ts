@@ -8,8 +8,7 @@ export const claimer = {
 
     // 플래그가 있는 방으로 이동
     if (!creep.memory.arrived) {
-      navigate.toFlag(targetFlag);
-      return;
+      return navigate.toFlag(targetFlag);
     }
 
     // Claim 시작

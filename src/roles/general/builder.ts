@@ -5,6 +5,7 @@ export const builder = {
   run: (creep: Creep) => {
     const home = creep.memory.home;
     const repair: Repair = new Repair(creep);
+    const dismantleFlag: Flag = Game.flags.dismantle_1;
 
     if (creep.memory.building && creep.carry.energy === 0) {
       creep.memory.building = false;
@@ -17,10 +18,26 @@ export const builder = {
     }
 
     if (creep.memory.building) {
-      const target: ConstructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
-      if (target) {
-        if (creep.build(target) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+      if (dismantleFlag) {
+        const dismantleTargets = creep.room.lookAt(dismantleFlag.pos);
+        const filteredTargets = dismantleTargets.filter((target) => {
+          if (target.type === 'structure') {
+            return target.structure;
+          }
+        });
+        if (filteredTargets) {
+          for (const target of filteredTargets) {
+            if (creep.dismantle(target.structure) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(target.structure);
+            }
+          }
+        }
+      } else {
+        const target: ConstructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+        if (target) {
+          if (creep.build(target) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+          }
         }
       }
     }
@@ -29,7 +46,7 @@ export const builder = {
       // find closest container
       const container: any = creep.pos.findClosestByPath(FIND_STRUCTURES, { // TODO: any 개선
         filter: (s: any) => {
-          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 100;
+          return s.structureType === STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 200;
         }
       });
 

@@ -1,9 +1,9 @@
 import {Settings} from '../settings';
 import {RoomSettings} from './RoomSettings';
 
-export const W3N7: RoomSettings = {
+export const W3N5: RoomSettings = {
   spawn: {
-    name: 'Spawn2'
+    name: 'Spawn3'
   },
   creep: {
     harvester: {
@@ -19,15 +19,6 @@ export const W3N7: RoomSettings = {
       population: 1,
       initialMemory: {
         role: 'miner',
-        class: 'miner'
-      },
-      priority: 4,
-      parts: [WORK, WORK, WORK, WORK, WORK, MOVE] // 550
-    },
-    miner2: {
-      population: 1,
-      initialMemory: {
-        role: 'miner2',
         class: 'miner'
       },
       priority: 4,

@@ -24,7 +24,7 @@ export class SpawnQueue {
     const newMemory = _.merge(item.initialMemory, additionalMemory);
     item.initialMemory = newMemory;
 
-    console.log(`[Queue|${this.spawnName}] Produced: ${item.initialMemory.role}`);
+    console.log(`[Queue | ${this.spawnName}] Produced: ${item.initialMemory.role}`);
     return Memory.spawns[this.spawnName].queue.push(item);
   }
 
@@ -39,7 +39,7 @@ export class SpawnQueue {
     const newMemory = _.merge(item.initialMemory, additionalMemory);
     item.initialMemory = newMemory;
 
-    console.log(`[Queue|${this.spawnName}] PriorProduced: ${item.initialMemory.role}`);
+    console.log(`[Queue | ${this.spawnName}] PriorProduced: ${item.initialMemory.role}`);
     return Memory.spawns[this.spawnName].queue.unshift(item);
   }
 
@@ -55,14 +55,14 @@ export class SpawnQueue {
 
   // 스폰 큐 삭제
   public clean(): void {
-    console.log(`[Queue|${this.spawnName}] Cleaned`);
+    console.log(`[Queue | ${this.spawnName}] Cleaned`);
     delete Memory.spawns[this.spawnName].queue;
   }
 
   // 스폰 큐 초기화
   private initialize(): void {
     if (_.isUndefined(Game.spawns[this.spawnName].memory.queue)) {
-      console.log(`[Queue|${this.spawnName}] Initialized`);
+      console.log(`[Queue | ${this.spawnName}] Initialized`);
       Memory.spawns[this.spawnName].queue = [];
     }
   }

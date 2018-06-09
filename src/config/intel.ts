@@ -33,7 +33,6 @@ interface Intel {
       mineral?: {
         id: string;
         type: RESOURCE_UTRIUM | RESOURCE_LEMERGIUM | RESOURCE_KEANIUM | RESOURCE_GHODIUM | RESOURCE_ZYNTHIUM | RESOURCE_OXYGEN | RESOURCE_HYDROGEN | RESOURCE_CATALYST;
-        density: number;
         seats: number;
         x: number;
         y: number;
@@ -88,7 +87,6 @@ export const intel: Intel = {
       mineral: {
         id: '766c6164dd1fb19',
         type: RESOURCE_UTRIUM,
-        density: DENSITY_MODERATE,
         seats: 3,
         x: 18,
         y: 35
@@ -139,6 +137,31 @@ export const intel: Intel = {
         }
       }
     },
+    W3N5: {
+      name: 'W3N5',
+      object: Game.rooms.W3N5,
+      entrance: {
+        roomPosition: new RoomPosition(25, 5, 'W3N5'),
+        x: 25,
+        y: 5
+      },
+      sources: {
+        primary: {
+          id: 'b25207741a44ada',
+          roomPosition: new RoomPosition(40, 45, 'W3N5'),
+          seats: 1,
+          x: 40,
+          y: 45
+        }
+      },
+      mineral: {
+        id: '766c6164dd1fb19',
+        type: RESOURCE_KEANIUM,
+        seats: 5,
+        x: 27,
+        y: 17
+      }
+    },
     W5N5: {
       name: 'W5N5',
       alias: 'capitol',
@@ -174,7 +197,6 @@ export const intel: Intel = {
       mineral: {
         id: '766c6164dd1fb19',
         type: RESOURCE_UTRIUM,
-        density: DENSITY_MODERATE,
         seats: 3,
         x: 18,
         y: 35
@@ -185,6 +207,6 @@ export const intel: Intel = {
     mining: {
       rooms: ['W2N7']
     },
-    reservation: ['W2N7']
+    reservation: []
   }
 };

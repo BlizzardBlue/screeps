@@ -1,9 +1,10 @@
 import {intel} from '../../config/intel';
-// import {StorageModel} from '../models/storage';
+import {StorageModel} from '../../models/StorageModel';
 
 export const upgrader = {
   run: (creep: Creep) => {
     const home = creep.memory.home;
+    const storageModel: StorageModel = new StorageModel(creep);
 
     if (creep.memory.upgrading && creep.carry.energy === 0) {
       creep.memory.upgrading = false;
@@ -19,6 +20,9 @@ export const upgrader = {
         creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
       }
     } else {
+      if (creep.room.name === 'W3N7') { // TODO: 임시 대책. 나중에 바꿀 것.
+        return storageModel.withdraw('energy');
+      }
       // find closest container
       const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
         filter: (s: any) => { // TODO: any 개선

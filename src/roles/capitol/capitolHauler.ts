@@ -12,25 +12,49 @@ export const capitolHauler = {
 
     // 인베이더가 침입하면 집으로 도망감
     if (Memory.rooms[capitolRoomName].invader) {
-      creep.say('🆘', true);
-      return navigate.fromCapitoltoHome();
+      creep.memory.retreat = true;
+      if (creep.room.name === creep.memory.home) {
+        // TODO: 모듈화
+        creep.say('♻️', true);
+        const spawn: StructureSpawn = creep.room.find(FIND_MY_SPAWNS)[0];
+        const renewResult = spawn.recycleCreep(creep);
+        switch (renewResult) {
+          case OK:
+            console.log(`[Spawn | ${spawn.name}] Recycled: ${creep.name}`);
+            break;
+          case ERR_BUSY:
+            creep.moveTo(spawn, {reusePath: 1});
+            break;
+          case ERR_NOT_IN_RANGE:
+            creep.moveTo(spawn, {reusePath: 1});
+            break;
+          default:
+            creep.say(`Err: ${renewResult}`);
+        }
+        return true;
+      } else {
+        creep.say('🆘', true);
+        return navigate.fromCapitoltoHome();
+      }
+    } else {
+      creep.memory.retreat = false;
     }
 
     // TODO: 모듈화
     // 수명이 550틱 이하로 남았으면 recycle
-    if (creep.ticksToLive <= 550 && creep.memory.return && creep.room.name === 'W3N7') {
+    if (creep.ticksToLive <= 500 && creep.room.name === 'W1N7' || creep.ticksToLive <= 500 && creep.room.name === 'W3N7') {
       creep.say('♻️', true);
-      const spawn2: StructureSpawn = Game.spawns.Spawn2;
-      const renewResult = spawn2.recycleCreep(creep);
+      const spawn: StructureSpawn = creep.room.find(FIND_MY_SPAWNS)[0];
+      const renewResult = spawn.recycleCreep(creep);
       switch (renewResult) {
         case OK:
-          console.log(`[Spawn|${spawn2.name}] Recycled: ${creep.name}`);
+          console.log(`[Spawn | ${spawn.name}] Recycled: ${creep.name}`);
           break;
         case ERR_BUSY:
-          creep.moveTo(spawn2, {reusePath: 1});
+          creep.moveTo(spawn, {reusePath: 1});
           break;
         case ERR_NOT_IN_RANGE:
-          creep.moveTo(spawn2, {reusePath: 1});
+          creep.moveTo(spawn, {reusePath: 1});
           break;
         default:
           creep.say(`Err: ${renewResult}`);
@@ -61,6 +85,7 @@ export const capitolHauler = {
     // 에너지 다 넣으면 다시 캐피톨로
     if (creep.room.name === creep.memory.home && creep.memory.return && creep.carry.energy === 0) {
       creep.memory.return = false;
+      creep.memory.arrived = false;
     }
 
     // 캐피톨 도착하면 떨어진 에너지 / 컨테이너 에너지 수거

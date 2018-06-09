@@ -7,6 +7,7 @@ import {roleMap} from 'config/roleMap';
 import {settings} from 'config/settings';
 import {systemSettings} from './config/systemSettings';
 
+import {intel} from './config/intel';
 import {SpawnQueue} from './queues/SpawnQueue';
 import {ThreatMonitor} from './tasks/ThreatMonitor';
 import {ThreatMonitorHelper} from './tasks/ThreatMonitorHelper';
@@ -15,6 +16,8 @@ import {ThreatMonitorHelper} from './tasks/ThreatMonitorHelper';
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 // export const loop = ErrorMapper.wrapLoop(() => {
 export const loop = () => {
+  const capitolRoomName: string = intel.alias.capitol.roomName;
+
   // 죽은 크립 메모리 청소
   for (const name of Object.keys(Memory.creeps)) {
     if (!(name in Game.creeps)) {
@@ -42,6 +45,10 @@ export const loop = () => {
     const spawnName = roomSetting.spawn.name;
 
     for (const creepType of Object.keys(roomSetting.creep)) {
+      // 캐피톨에 인베이더가 침입하면, 캐피톨 크립들은 생산하지 않음
+      if (creepType === ('capitolBuilder' || 'capitolHauler' || 'capitolMiner' || 'capitolRepairer') && Memory.rooms[capitolRoomName].invader) {
+        break;
+      }
       const creepSetting = roomSetting.creep[creepType];
 
       // 타입이 같고 && 고향이 같고 && 살아있는 크립의 수 계산
@@ -121,7 +128,7 @@ export const loop = () => {
         Game.spawns[spawnName].spawnCreep(newCreep.parts, newCreep.name, {
           memory: newCreep.initialMemory
         });
-        console.log(`[Queue|${spawnName}] Consumed: ${newCreep.name}`);
+        console.log(`[Queue | ${spawnName}] Consumed: ${newCreep.name}`);
       }
     }
   }
@@ -134,6 +141,11 @@ export const loop = () => {
 
   // 시스템 설정
   if (systemSettings.metric) {
-    console.log(`[CPU] ${Game.cpu.getUsed().toPrecision(3)}% | [Memory] ${Game.cpu.getHeapStatistics().total_heap_size / 1024} KB`);
+    console.log(`[CPU] ${Game.cpu.getUsed().toPrecision(3)} | [Memory] ${Game.cpu.getHeapStatistics().total_heap_size / 1024} KB`);
+  }
+  if (systemSettings.metricAlert) {
+    if (Game.cpu.getUsed() >= 100) {
+      console.log(`[Alert | CPU] ${Game.cpu.getUsed().toPrecision(3)}`);
+    }
   }
 };

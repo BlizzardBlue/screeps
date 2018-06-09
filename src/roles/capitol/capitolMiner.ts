@@ -10,7 +10,38 @@ export const capitolMiner = {
 
     // 인베이더가 침입하면 집으로 도망감
     if (Memory.rooms[capitolRoomName].invader) {
-      return navigate.fromCapitoltoHome();
+      creep.memory.retreat = true;
+      if (creep.room.name === creep.memory.home) {
+        // TODO: 모듈화
+        creep.say('♻️', true);
+        const spawn: StructureSpawn = creep.room.find(FIND_MY_SPAWNS)[0];
+        const renewResult = spawn.recycleCreep(creep);
+        switch (renewResult) {
+          case OK:
+            console.log(`[Spawn | ${spawn.name}] Recycled: ${creep.name}`);
+            break;
+          case ERR_BUSY:
+            creep.moveTo(spawn, {reusePath: 1});
+            break;
+          case ERR_NOT_IN_RANGE:
+            creep.moveTo(spawn, {reusePath: 1});
+            break;
+          default:
+            creep.say(`Err: ${renewResult}`);
+        }
+        return true;
+      } else {
+        creep.say('🆘', true);
+        if (creep.memory.reservedSourceId) {
+          const releaseResult = roomMemoryModel.releaseSource(creep.memory.reservedSourceId);
+          if (releaseResult) {
+            delete creep.memory.reservedSourceId;
+          }
+        }
+        return navigate.fromCapitoltoHome();
+      }
+    } else {
+      creep.memory.retreat = false;
     }
 
     if (creep.memory.reservedSourceId) {

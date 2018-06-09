@@ -7,7 +7,7 @@ export const W1N7: RoomSettings = {
   },
   creep: {
     harvester: {
-      population: 3,
+      population: 2,
       initialMemory: {
         role: 'harvester',
         class: 'harvester'
@@ -41,7 +41,7 @@ export const W1N7: RoomSettings = {
         building: false
       },
       priority: 1,
-      parts: [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
+      parts: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     upgrader: {
       population: 3,
@@ -82,7 +82,7 @@ export const W1N7: RoomSettings = {
       parts: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
     },
     remoteHarvester: {
-      population: 2,
+      population: 0,
       initialMemory: {
         role: 'remoteHarvester',
         class: 'harvester',
@@ -143,7 +143,7 @@ export const W1N7: RoomSettings = {
       parts: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
     },
     capitolDefender: {
-      population: 1,
+      population: 0,
       initialMemory: {
         role: 'capitolDefender',
         class: 'dealer',
@@ -154,7 +154,7 @@ export const W1N7: RoomSettings = {
       // parts: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK] // 1550
     },
     capitolHealer: {
-      population: 4,
+      population: 0,
       initialMemory: {
         role: 'capitolHealer',
         class: 'healer',
@@ -164,7 +164,7 @@ export const W1N7: RoomSettings = {
       parts: [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, HEAL, HEAL, HEAL, HEAL, HEAL] // 1750
     },
     capitolHauler: {
-      population: 4,
+      population: 0,
       initialMemory: {
         role: 'capitolHauler',
         class: 'hauler',
