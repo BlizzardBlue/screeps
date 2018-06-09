@@ -1,4 +1,3 @@
-import {Settings} from '../settings';
 import {RoomSettings} from './RoomSettings';
 
 export const W1N7: RoomSettings = {
