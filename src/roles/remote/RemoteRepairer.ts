@@ -1,4 +1,4 @@
-import {Repair} from '../../actions/repair';
+import {Repair} from '../../actions/Repair';
 import {StorageModel} from '../../models/StorageModel';
 import {RemoteRole} from './RemoteRole';
 

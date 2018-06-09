@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-import {Repair} from '../../actions/repair';
+import {Repair} from '../../actions/Repair';
 import {intel} from '../../config/intel';
 import {StorageModel} from '../../models/StorageModel';
 import {CapitolRole} from './CapitolRole';
