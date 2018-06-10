@@ -6,7 +6,7 @@ export const W1N7: RoomSettings = {
   },
   creep: {
     harvester: {
-      population: 2,
+      population: 3,
       initialMemory: {
         role: 'harvester',
         class: 'harvester'
@@ -21,7 +21,7 @@ export const W1N7: RoomSettings = {
         class: 'miner'
       },
       priority: 4,
-      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE]
+      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]
     },
     miner2: {
       population: 1,
@@ -30,7 +30,7 @@ export const W1N7: RoomSettings = {
         class: 'miner'
       },
       priority: 4,
-      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE]
+      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]
     },
     builder: {
       population: 0,
@@ -78,7 +78,7 @@ export const W1N7: RoomSettings = {
         cleaning: true
       },
       priority: 6,
-      parts: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
+      parts: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     remoteHarvester: {
       population: 0,

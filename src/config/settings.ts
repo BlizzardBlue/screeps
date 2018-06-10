@@ -11,8 +11,8 @@ export interface Settings {
 export const settings: Settings = {
   rooms: {
     W1N7: W1N7,
-    W3N7: W3N7,
-    W3N5: W3N5
+    W3N5: W3N5,
+    W3N7: W3N7
   },
   memory: undefined
 };

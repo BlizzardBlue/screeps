@@ -9,6 +9,7 @@ declare interface CreepMemory {
   spawn: string;
   dispatch: boolean;
   dispatchSite?: string;
+  renewing?: boolean;
   [anything: string]: any;
   reservedSourceId?: string;
   arrived?: boolean;
@@ -22,6 +23,14 @@ declare interface RoomMemorySource {
   reserver: string;
 }
 
+declare interface RoomMemoryDispatchFulfillment {
+  [role: string]: {
+    creeps: string[]; // 현지 활동중인 파견직 크립 이름 목록
+    count: number; // 현재 활동중인 파견직 크립 수
+    spawnQueued: number; // 스폰 큐에 대기중인 수
+  };
+}
+
 declare interface RoomMemory {
   name: string;
   sources?: {
@@ -30,6 +39,7 @@ declare interface RoomMemory {
   invader?: boolean;
   invaderExpireAt?: number;
   hostile?: boolean;
+  dispatchFulfillment: RoomMemoryDispatchFulfillment;
 }
 
 declare interface SpawnQueueItem {

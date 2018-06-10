@@ -24,27 +24,30 @@ export class Navigate {
     }
   }
 
-  // 방으로 이동
-  public toRoom(roomName: string): any {
-    const route = Game.map.findRoute(this.creep.room.name, roomName) as any; // TODO: 타이핑 개선
-    if (route.length > 0) {
-      this.creep.say(`GOTO ${route[0].room.name}`);
-      const exit = this.creep.pos.findClosestByRange(route[0].exit);
-      return this.creep.moveTo(exit, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
-    }
-  }
+  // // 방으로 이동
+  // public toRoom(roomName: string): any {
+  //   const route = Game.map.findRoute(this.creep.room.name, roomName) as any; // TODO: 타이핑 개선
+  //   console.log(JSON.stringify(route, null, 2));
+  //   if (route.length > 0) {
+  //     this.creep.say(`${roomName} 가는 중!`, true);
+  //     const exit = this.creep.pos.findClosestByRange(route[0].exit);
+  //     return this.creep.moveTo(exit, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+  //   }
+  // }
 
   // 집으로 귀환
-  public toHome(): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND {
+  public toHome(): number {
     const homeName: string = this.creep.memory.home;
     const homeCenter = new RoomPosition(25, 25, homeName);
-    return this.creep.moveTo(homeCenter, {reusePath: 1});
+    return this.creep.moveTo(homeCenter);
   }
 
   // 파견지로 이동
   public toDispatchSite(): any {
     const dispatchSite: string = this.creep.memory.dispatchSite;
-    return this.toRoom(dispatchSite);
+    // return this.creep.moveTo(Game.rooms[dispatchSite].controller);
+    return this.creep.moveTo(new RoomPosition(21, 29, dispatchSite));
+    // return this.toRoom(dispatchSite);
   }
 
   // 캐피톨에서 집으로 귀환

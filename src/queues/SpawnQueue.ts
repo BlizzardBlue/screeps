@@ -21,8 +21,7 @@ export class SpawnQueue {
       home: Game.spawns[this.spawnName].room.name,
       spawn: this.spawnName
     };
-    const newMemory = _.merge(item.initialMemory, additionalMemory);
-    item.initialMemory = newMemory;
+    item.initialMemory = _.merge(item.initialMemory, additionalMemory);
 
     console.log(`[Queue | ${this.spawnName}] Produced: ${item.initialMemory.role}`);
     return Memory.spawns[this.spawnName].queue.push(item);
@@ -36,8 +35,7 @@ export class SpawnQueue {
       home: Game.spawns[this.spawnName].room.name,
       spawn: this.spawnName
     };
-    const newMemory = _.merge(item.initialMemory, additionalMemory);
-    item.initialMemory = newMemory;
+    item.initialMemory = _.merge(item.initialMemory, additionalMemory);
 
     console.log(`[Queue | ${this.spawnName}] PriorProduced: ${item.initialMemory.role}`);
     return Memory.spawns[this.spawnName].queue.unshift(item);

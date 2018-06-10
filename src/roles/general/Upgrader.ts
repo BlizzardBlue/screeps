@@ -9,11 +9,36 @@ export class Upgrader extends GeneralRole {
   private storageModel: StorageModel;
 
   constructor(creep: Creep) {
-    super(creep);
+    super(creep, {
+      targetTicksToLiveOnDispatch: 200
+    });
     this.storageModel = new StorageModel(creep);
   }
 
   public run() {
+    // 파견지에 도착하면 메모리의 arrived값 true로 변경
+    if (this.dispatch && this.creep.pos.inRangeTo(new RoomPosition(21, 29, this.dispatchSite), 4)) {
+      this.creep.say('도착!', true);
+      this.creep.memory.arrived = true;
+    }
+
+    // 파견근무용 크립일경우 파견지로 이동
+    if (this.dispatch && !this.arrived) {
+      this.creep.say(`${this.dispatchSite}로 가는 중!`, true);
+      return this.navigate.toDispatchSite();
+    }
+
+    // 파견지에서 수명 연장
+    if (this.dispatch && this.creep.ticksToLive < this.creepSettings.targetTicksToLiveOnDispatch) {
+      this.creep.memory.renewing = true;
+    } else if (this.dispatch && this.creep.ticksToLive > 1400) {
+      this.creep.memory.renewing = false;
+    }
+    if (this.dispatch && this.creep.memory.renewing) {
+      this.creep.say('수명 연장 비활성화 됨', true); // TODO: 파견지에 스토리지 생기고 나면, 수명 연장 다시 활성화
+      // return this.renewAtDispatchSite();
+    }
+
     if (this.creep.memory.upgrading && this.creep.carry.energy === 0) {
       this.creep.memory.upgrading = false;
       this.creep.say('⛏️', true);
@@ -46,11 +71,9 @@ export class Upgrader extends GeneralRole {
         }
       } else {
         // find closest source
-        const source = Game.getObjectById(intel.rooms[this.home].sources.primary.id) as Source; // var source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-        // try to harvest energy, if the source is not in range
+        const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          // move towards it
-          this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
         }
       }
       // var source = Game.getObjectById(intel.rooms[home].sources.primary.id);

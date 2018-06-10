@@ -21,7 +21,7 @@ export const W3N7: RoomSettings = {
         class: 'miner'
       },
       priority: 4,
-      parts: [WORK, WORK, WORK, WORK, WORK, MOVE] // 550
+      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE] // 550
     },
     miner2: {
       population: 1,
@@ -30,7 +30,7 @@ export const W3N7: RoomSettings = {
         class: 'miner'
       },
       priority: 4,
-      parts: [WORK, WORK, WORK, WORK, WORK, MOVE] // 550
+      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE] // 550
     },
     builder: {
       population: 0,
@@ -43,7 +43,7 @@ export const W3N7: RoomSettings = {
       parts: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE] // 800
     },
     upgrader: {
-      population: 3,
+      population: 4,
       initialMemory: {
         role: 'upgrader',
         class: 'upgrader'

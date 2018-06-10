@@ -1,11 +1,11 @@
-import {BaseRole} from '../BaseRole';
+import {BaseRole, CreepSettings} from '../BaseRole';
 
 /**
  * 일반적인 크립의 부모 클래스
  */
 export class GeneralRole extends BaseRole {
-  constructor(creep: Creep) {
-    super(creep);
+  constructor(creep: Creep, creepSettings?: CreepSettings) {
+    super(creep, creepSettings);
   }
 
   /**
