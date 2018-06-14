@@ -13,6 +13,15 @@ export class Repairer extends GeneralRole {
   }
 
   public run() {
+    // 파견지에 인베이더가 침입하면, 집으로 대피함
+    if (this.dispatch) {
+      const dispatchSiteUnderAttack: boolean = Memory.rooms[this.creep.memory.dispatchSite].invader;
+      if (dispatchSiteUnderAttack) {
+        this.creep.say('🆘', true);
+        return this.navigate.toHome();
+      }
+    }
+
     // 파견지에 도착하면 메모리의 dispatchSiteArrived값 true로 변경
     if (this.dispatch
       && !this.dispatchSiteArrived

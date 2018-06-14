@@ -19,6 +19,7 @@ export class Hauler extends GeneralRole {
   // TODO: Hauler의 dispatchSite는 '내가 점령하지 않은 방'임. 이 부분 고려해서 문제될거 없는지 다시 생각해보기.
   public run() {
     try {
+      // 파견지에 인베이더가 침입하면, 집으로 대피함
       if (this.dispatch) {
         const dispatchSiteUnderAttack: boolean = Memory.rooms[this.creep.memory.dispatchSite].invader;
         if (dispatchSiteUnderAttack) {
