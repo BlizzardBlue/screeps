@@ -33,14 +33,14 @@ export const remoteHauler = {
         // try to withdraw energy, if the container is not in range
         if (creep.withdraw(container, 'energy') === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
         }
       } else {
         const source = Game.getObjectById(intel.rooms[home].sources.primary.id) as Source; // var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         // try to harvest energy, if the source is not in range
         if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
-          creep.moveTo(source, {reusePath: 1});
+          creep.moveTo(source, {reusePath: 4});
         }
       }
     }
@@ -55,7 +55,7 @@ export const remoteHauler = {
       });
       if (target) {
         if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+          creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 4});
         }
       } else {
         creep.moveTo(36, 25);

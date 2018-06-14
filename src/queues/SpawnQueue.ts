@@ -19,7 +19,8 @@ export class SpawnQueue {
     // TODO: 추가하는 방식 개선 (큐에서 애매함)
     const additionalMemory = {
       home: Game.spawns[this.spawnName].room.name,
-      spawn: this.spawnName
+      spawn: this.spawnName,
+      fromQueue: true
     };
     item.initialMemory = _.merge(item.initialMemory, additionalMemory);
 
@@ -28,16 +29,19 @@ export class SpawnQueue {
   }
 
   // 스폰 큐 맨 앞에 추가
-  public priorProduce(item: SpawnQueueItem): number {
+  public priorProduce(item: SpawnQueueItem, consoleLog?: boolean): number {
     // 메모리에 정보 추가
     // TODO: 추가하는 방식 개선 (큐에서 애매함)
     const additionalMemory = {
       home: Game.spawns[this.spawnName].room.name,
-      spawn: this.spawnName
+      spawn: this.spawnName,
+      fromQueue: true
     };
     item.initialMemory = _.merge(item.initialMemory, additionalMemory);
 
-    console.log(`[Queue | ${this.spawnName}] PriorProduced: ${item.initialMemory.role}`);
+    if (consoleLog) {
+      console.log(`[Queue | ${this.spawnName}] PriorProduced: ${item.initialMemory.role}`);
+    }
     return Memory.spawns[this.spawnName].queue.unshift(item);
   }
 

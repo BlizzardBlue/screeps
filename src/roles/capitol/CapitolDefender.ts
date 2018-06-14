@@ -1,9 +1,9 @@
 import {settings} from '../../config/settings';
 
 import {Attack} from '../../actions/Attack';
+import {Navigate} from '../../actions/Navigate';
 import {intel} from '../../config/intel';
 import {SpawnQueue} from '../../queues/SpawnQueue';
-import {Navigate} from '../../actions/Navigate';
 import {CapitolRole} from './CapitolRole';
 
 export class CapitolDefender extends CapitolRole {

@@ -23,7 +23,7 @@ export class StorageModel {
     if (storage) {
       for (const resourceType of Object.keys(this.creep.carry)) { // TODO: 타이핑
         if (this.creep.transfer(storage, resourceType as ResourceConstant) === ERR_NOT_IN_RANGE) {
-          this.creep.moveTo(storage, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          this.creep.moveTo(storage, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
         }
       }
     }
@@ -39,7 +39,7 @@ export class StorageModel {
       switch (resourceType) {
         case 'energy':
           if (this.creep.withdraw(storage, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) { // TODO: amount parameter 지원
-            this.creep.moveTo(storage, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+            this.creep.moveTo(storage, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
           }
           break;
         default:

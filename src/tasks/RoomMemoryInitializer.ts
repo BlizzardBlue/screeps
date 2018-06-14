@@ -26,18 +26,18 @@ export class RoomMemoryInitializer {
         name: this.room.name,
         dispatchFulfillment: this.dispatchFulfillmentInitialData
       };
-      console.log(`[Task | ${this.room.name}] Room memory initialized`);
+      console.log(`[Task | RoomMemoryInitializer] Room memory initialized: ${this.room.name}`);
     }
 
     // intel에 기재된 방들의 메모리 초기화
     for (const roomName of Object.keys(intel.rooms)) {
       const roomMemory = Memory.rooms[roomName];
-      if (_.isEmpty(roomMemory)) {
+      if (_.isEmpty(roomMemory) || _.isUndefined(roomMemory)) {
         Memory.rooms[roomName] = {
           name: roomName,
           dispatchFulfillment: this.dispatchFulfillmentInitialData
         };
-        console.log(`[Task | ${roomName}] Room memory initialized`);
+        console.log(`[Task | RoomMemoryInitializer] Room memory initialized ${roomName}`);
       }
     }
   }

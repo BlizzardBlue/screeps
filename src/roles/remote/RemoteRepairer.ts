@@ -22,7 +22,7 @@ export class RemoteRepairer extends RemoteRole {
     const attackTarget = this.creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (attackTarget) {
       if (this.creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-        this.creep.moveTo(attackTarget, {reusePath: 1});
+        this.creep.moveTo(attackTarget, {reusePath: 4});
       }
       return true;
     }
@@ -56,7 +56,7 @@ export class RemoteRepairer extends RemoteRole {
     if (this.creep.memory.harvesting) {
       const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
       if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
-        return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       }
     }
 
@@ -70,7 +70,7 @@ export class RemoteRepairer extends RemoteRole {
 
     if (this.creep.memory.ready) {
       if (!this.creep.memory.arrived) {
-        this.creep.moveTo(this.targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        this.creep.moveTo(this.targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       } else {
         return this.repair.room();
       }

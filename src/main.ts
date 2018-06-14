@@ -9,6 +9,7 @@ import {intel} from './config/intel';
 import {SpawnQueue} from './queues/SpawnQueue';
 import {CreepMemoryCleaner} from './tasks/CreepMemoryCleaner';
 import {DispatchFulfillmentMonitor} from './tasks/DispatchFulfillmentMonitor';
+import {calculateDispatchFulfillmentSpawnQueued, dispatchFulfillmentValidate} from './tasks/dispatchFulfillmentValidate';
 import {RoomMemoryInitializer} from './tasks/RoomMemoryInitializer';
 import {ThreatMonitor} from './tasks/ThreatMonitor';
 import {ThreatMonitorHelper} from './tasks/ThreatMonitorHelper';
@@ -20,6 +21,10 @@ export const loop = () => {
   /**
    * Tasks 실행
    */
+  // 룸 메모리에 남아있는 죽은 크립들부터 제거
+  dispatchFulfillmentValidate();
+  // 스폰 큐를 읽어 각 룸의 dispatchFulfillment.spawnQueued 값을 갱신함
+  calculateDispatchFulfillmentSpawnQueued();
   // Game.rooms 관련
   for (const roomName of Object.keys(Game.rooms)) {
     // RoomMemoryInitializer
@@ -53,14 +58,19 @@ export const loop = () => {
    */
   for (const roomName of Object.keys(settings.rooms)) {
     const roomSetting = settings.rooms[roomName];
+    // 스폰이 없는 방은 넘김
+    if (_.isUndefined(roomSetting.spawn)) {
+      continue;
+    }
     const spawnName = roomSetting.spawn.name;
 
     // 내수용 크립 생산
     for (const creepType of Object.keys(roomSetting.creep)) {
+      // console.log(`${spawnName} / ${creepType}`);
       // 캐피톨에 인베이더가 침입하면, 캐피톨 크립들은 생산하지 않음
       const capitolRoomName: string = intel.alias.capitol.roomName;
       if (creepType === ('capitolBuilder' || 'capitolHauler' || 'capitolMiner' || 'capitolRepairer') && Memory.rooms[capitolRoomName].invader) {
-        break;
+        continue;
       }
       const creepSetting = roomSetting.creep[creepType];
 
@@ -83,16 +93,18 @@ export const loop = () => {
         });
       }
     }
+  }
 
-    // 파견용 크립 생산
-    for (const roomName of Object.keys(settings.rooms)) {
-      const dispatchSetting = settings.rooms[roomName].dispatch;
-      const dispatchFulfillment = Game.rooms[roomName].memory.dispatchFulfillment;
-      //  룸 설정에 파견 관련 데이터가 있으면
-      if (!_.isUndefined(dispatchSetting)) {
-        for (const role of Object.keys(dispatchSetting)) {
-          const spawnQueue: SpawnQueue = new SpawnQueue(dispatchSetting[role].fromSpawn);
-          // 스폰 큐에 추가해야할 크립 수 계산
+  // 파견용 크립 생산
+  for (const roomName of Object.keys(settings.rooms)) {
+    const dispatchSetting = settings.rooms[roomName].dispatch;
+    const dispatchFulfillment = Memory.rooms[roomName].dispatchFulfillment;
+    //  룸 설정에 파견 관련 데이터가 있으면
+    if (!_.isUndefined(dispatchSetting)) {
+      for (const role of Object.keys(dispatchSetting)) {
+        const spawnQueue: SpawnQueue = new SpawnQueue(dispatchSetting[role].fromSpawn);
+        // 스폰 큐에 추가해야할 크립 수 계산
+        if (dispatchSetting[role].population > 0) {
           const requiredNumber: number = ((dispatchSetting[role].population - dispatchFulfillment[role].count) - dispatchFulfillment[role].spawnQueued);
           const newCreep: SpawnQueueItem = {
             initialMemory: dispatchSetting[role].initialMemory,
@@ -102,22 +114,11 @@ export const loop = () => {
           _.times(requiredNumber, () => {
             spawnQueue.produce(newCreep);
             // 스폰 큐 대기 카운트 1 증가
-            Game.rooms[roomName].memory.dispatchFulfillment[role].spawnQueued += 1;
+            // *주의* hauler의 설정은 dispatchSite 대신 pickupRoom에 존재함. 따라서 아래의 roomName은 pickupRoom으로 설정됨.
+            // Memory.rooms[roomName].dispatchFulfillment[role].spawnQueued += 1;
           });
         }
       }
-    }
-  }
-
-  // 크립 생산시, 스폰 옆에 메시지를 띄움
-  for (const spawnName of Object.keys(Game.spawns)) {
-    const spawn: StructureSpawn = Game.spawns[spawnName];
-    if (spawn.spawning) {
-      const spawningCreep = Game.creeps[spawn.spawning.name];
-      spawn.room.visual.text(`🛠️ ${spawningCreep.memory.role}`, spawn.pos.x + 1, spawn.pos.y, {
-        align: 'left',
-        opacity: 0.8
-      });
     }
   }
 
@@ -126,11 +127,15 @@ export const loop = () => {
    * TODO: 리팩토링
    */
   const towerIds: string[] = [
-    '5b132f1de77af90020399c2f',
+    '5b21b301db63e5002db72203', // W1N7
+    '5b132f1de77af90020399c2f', // W1N7
+    '5b1cf7d98b2122002512ca2c', // W1N7
     '5b186b836c39f600211ac970',
-    '5b1b075d8b2122002511e982',
+    '5b21b338db63e5002db72213', // W3N7
+    '5b1b075d8b2122002511e982', // W3N7
     '5b14bb351dca9e002421adaa',
-    '5b1c608c547fcf002b749104'
+    '5b21b778e1840700263e3716', // W3N5
+    '5b1c608c547fcf002b749104' // W3N5
   ];
   for (const towerId of towerIds) {
     const tower = Game.getObjectById(towerId) as StructureTower;
@@ -138,12 +143,15 @@ export const loop = () => {
       const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
       if (closestHostile) {
         tower.attack(closestHostile);
-        // const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-        //   filter: (structure) => structure.hits < structure.hitsMax
-        // });
-        // if (closestDamagedStructure) {
-        //   tower.repair(closestDamagedStructure);
-        // }
+      } else {
+        if (tower.energy > 700) {
+          const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => structure.hits < structure.hitsMax && structure.structureType !== STRUCTURE_WALL && structure.structureType !== STRUCTURE_RAMPART
+          });
+          if (closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
+          }
+        }
       }
     }
   }
@@ -170,15 +178,43 @@ export const loop = () => {
           memory: newCreep.initialMemory
         });
         if (spawnResult !== OK) {
-          spawnQueue.priorProduce(newCreep);
+          if (newCreep.initialMemory.dispatch) {
+            newCreep.name = `dispatch_${role}_${roomName}_${Game.time}`;
+          }
+          spawnQueue.priorProduce(newCreep, false);
         } else {
           // 파견직 크립이면 파견지 메모리의 'spawnQueued' 값 1 감소
-          if (newCreep.initialMemory.dispatch) {
-            Game.rooms[newCreep.initialMemory.dispatchSite].memory.dispatchFulfillment[role].spawnQueued -= 1;
-            console.log(`[Queue | ${spawnName}] Consumed: ${newCreep.name}`);
-          }
+          // if (newCreep.initialMemory.dispatch) {
+          // 하울러의 설정은 dispatchSite 대신 pickupRoom에 존재함. 따라서 하울러의 파견지점 메모리는 pickupRoom으로 설정해야함
+          // if (newCreep.initialMemory.role === 'hauler') {
+          //   console.log('1');
+          //   Memory.rooms[newCreep.initialMemory.pickupRoom].dispatchFulfillment[role].spawnQueued -= 1;
+          //   console.log(`${Memory.rooms[newCreep.initialMemory.pickupRoom].dispatchFulfillment[role].spawnQueued}`);
+          // } else {
+          // Memory.rooms[newCreep.initialMemory.dispatchSite].dispatchFulfillment[role].spawnQueued -= 1;
+          // console.log(`${Memory.rooms[newCreep.initialMemory.dispatchSite].dispatchFulfillment[role].spawnQueued}`);
+          // }
+          console.log(`[Queue | ${spawnName}] Consumed: ${newCreep.name}`);
+          // }
         }
       }
+    }
+  }
+
+  // 크립 생산시, 스폰 옆에 메시지를 띄움
+  for (const spawnName of Object.keys(Game.spawns)) {
+    const spawn: StructureSpawn = Game.spawns[spawnName];
+    if (spawn.spawning) {
+      const spawningCreep = Game.creeps[spawn.spawning.name];
+      const queueLength: number = spawn.memory.queue.length;
+      let text = `🛠️ ${spawningCreep.memory.role}`;
+      if (queueLength) {
+        text = `${text} (+${queueLength})`;
+      }
+      spawn.room.visual.text(text, spawn.pos.x + 1, spawn.pos.y, {
+        align: 'left',
+        opacity: 0.8
+      });
     }
   }
 

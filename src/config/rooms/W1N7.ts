@@ -33,7 +33,7 @@ export const W1N7: RoomSettings = {
       parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]
     },
     builder: {
-      population: 0,
+      population: 1,
       initialMemory: {
         role: 'builder',
       class: 'builder',
@@ -43,7 +43,7 @@ export const W1N7: RoomSettings = {
       parts: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     upgrader: {
-      population: 3,
+      population: 2,
       initialMemory: {
         role: 'upgrader',
         class: 'upgrader'
@@ -52,7 +52,7 @@ export const W1N7: RoomSettings = {
       parts: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     repairer: {
-      population: 1,
+      population: 0,
       initialMemory: {
         role: 'repairer',
       class: 'repairer',
@@ -91,7 +91,7 @@ export const W1N7: RoomSettings = {
       parts: [MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, ATTACK]
     },
     remoteRepairer: {
-      population: 1,
+      population: 0,
       initialMemory: {
         role: 'remoteRepairer',
         class: 'repairer',

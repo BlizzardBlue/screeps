@@ -17,7 +17,7 @@ export class Reserver extends GeneralRole {
       return;
     }
     if (this.creep.reserveController(this.creep.room.controller) === ERR_NOT_IN_RANGE) {
-      this.creep.moveTo(this.creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+      this.creep.moveTo(this.creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 4});
     }
   }
 }

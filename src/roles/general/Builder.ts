@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 import {GeneralRole} from './GeneralRole';
 
 /**
@@ -14,15 +16,25 @@ export class Builder extends GeneralRole {
   }
 
   public run() {
-    // 파견지에 도착하면 메모리의 arrived값 true로 변경
-    if (this.dispatch && this.creep.pos.inRangeTo(new RoomPosition(21, 29, this.dispatchSite), 4)) {
+    // 파견지에 도착하면 메모리의 dispatchSiteArrived값 true로 변경
+    if (this.dispatch
+      && !this.dispatchSiteArrived
+      && this.creep.room.name === this.creep.memory.dispatchSite
+      && _.inRange(this.creep.pos.x, 2, 47)
+      && _.inRange(this.creep.pos.y, 2, 47)) {
       this.creep.say('도착!', true);
-      this.creep.memory.arrived = true;
+      this.creep.memory.dispatchSiteArrived = true;
     }
 
-    // 파견근무용 크립일경우 파견지로 이동
-    if (this.dispatch && !this.arrived) {
-      this.creep.say(`${this.dispatchSite}로 가는 중!`, true);
+    // 도착한 다음에 다른 방으로 이동해버릴경우, 다시 돌아오도록 하기 위함
+    // TODO: 개선 필요
+    if (this.dispatch && this.creep.room.name !== this.dispatchSite) {
+      this.creep.memory.dispatchSiteArrived = false;
+    }
+
+    // 파견용 크립일경우 파견지로 이동
+    if (this.dispatch && !this.dispatchSiteArrived) {
+      this.creep.say(`${this.dispatchSite}로 파견가요`, true);
       return this.navigate.toDispatchSite();
     }
 
@@ -38,20 +50,17 @@ export class Builder extends GeneralRole {
     }
 
     if (this.creep.memory.building && this.creep.carry.energy === 0) {
-      // console.log(this.creep.name, '2');
       this.creep.memory.building = false;
       this.creep.say('⛏️', true);
     }
 
     if (!this.creep.memory.building && this.creep.carry.energy === this.creep.carryCapacity) {
-      // console.log(this.creep.name, '3');
       this.creep.memory.building = true;
       this.creep.say('🚧', true);
     }
 
     if (this.creep.memory.building) {
       if (this.dismantleFlag) {
-        // console.log(this.creep.name, '4');
         const dismantleTargets = this.creep.room.lookAt(this.dismantleFlag.pos);
         const filteredTargets = dismantleTargets.filter((target) => {
           if (target.type === 'structure') {
@@ -59,7 +68,6 @@ export class Builder extends GeneralRole {
           }
         });
         if (filteredTargets) {
-          // console.log(this.creep.name, '5');
           for (const target of filteredTargets) {
             if (this.creep.dismantle(target.structure) === ERR_NOT_IN_RANGE) {
               this.creep.moveTo(target.structure);
@@ -67,19 +75,16 @@ export class Builder extends GeneralRole {
           }
         }
       } else {
-        // console.log(this.creep.name, '6');
         const target: ConstructionSite = this.creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
         if (target) {
-          // console.log(this.creep.name, '7');
           if (this.creep.build(target) === ERR_NOT_IN_RANGE) {
-            this.creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+            this.creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 4});
           }
         }
       }
     }
 
     if (!this.creep.memory.building) {
-      // console.log(this.creep.name, '8');
       // find closest container
       const container: any = this.creep.pos.findClosestByPath(FIND_STRUCTURES, { // TODO: any 개선
         filter: (s: any) => {
@@ -89,21 +94,21 @@ export class Builder extends GeneralRole {
 
       // if one was found
       if (container !== null) {
-        // console.log(this.creep.name, '9');
         // try to withdraw energy, if the container is not in range
         if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
-          this.creep.moveTo(container, {reusePath: 1});
+          this.creep.moveTo(container, {reusePath: 4});
         }
       } else {
-        // console.log(this.creep.name, '10');
         // find closest source
 
         // const source = Game.getObjectById(this.creep.room.rooms[this.home].sources.secondary.id) as Source; // let source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         // try to harvest energy, if the source is not in range
-        const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+        const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE, {
+          filter: s => s.room.name === this.creep.room.name
+        });
         if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
         }
       }
     }

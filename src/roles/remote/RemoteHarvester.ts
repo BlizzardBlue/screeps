@@ -25,7 +25,7 @@ export class RemoteHarvester extends RemoteRole {
     const attackTarget = this.creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (attackTarget) {
       if (this.creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-        this.creep.moveTo(attackTarget, {reusePath: 1});
+        this.creep.moveTo(attackTarget, {reusePath: 4});
       }
       return;
     }
@@ -34,7 +34,7 @@ export class RemoteHarvester extends RemoteRole {
       this.creep.memory.mining = false;
       this.creep.say(`☠️ (${this.creep.ticksToLive})`, true);
       if (this.creep.room.name !== intel.rooms[this.home].name) {
-        return this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        return this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       } else {
         if (_.sum(this.creep.carry) > 0) {
           this.storageModel.transfer();
@@ -57,18 +57,18 @@ export class RemoteHarvester extends RemoteRole {
 
     if (this.creep.memory.mining) {
       if (this.creep.room.name !== this.targetRoomIntel.name) {
-        this.creep.moveTo(this.targetRoomIntel.sources.primary.roomPosition, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        this.creep.moveTo(this.targetRoomIntel.sources.primary.roomPosition, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       } else {
         const source = Game.getObjectById(this.targetRoomIntel.sources.primary.id) as Source;
         if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
         }
       }
     }
 
     if (!this.creep.memory.mining) {
       if (this.creep.room.name !== intel.rooms[this.home].name) {
-        this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       } else {
         this.storageModel.transfer();
       }

@@ -6,7 +6,7 @@ export const W3N5: RoomSettings = {
   },
   creep: {
     harvester: {
-      population: 0,
+      population: 2,
       initialMemory: {
         role: 'harvester',
         class: 'harvester'
@@ -14,33 +14,33 @@ export const W3N5: RoomSettings = {
       priority: 0,
       parts: [WORK, CARRY, CARRY, MOVE, MOVE] // 300
     },
-    // miner: {
-    //   population: 1,
-    //   initialMemory: {
-    //     role: 'miner',
-    //     class: 'miner'
-    //   },
-    //   priority: 4,
-    //   parts: [WORK, WORK, WORK, WORK, WORK, MOVE] // 550
-    // },
-    // builder: {
-    //   population: 0,
-    //   initialMemory: {
-    //     role: 'builder',
-    //   class: 'builder',
-    //     building: false
-    //   },
-    //   priority: 1,
-    //   parts: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE] // 800
-    // },
-    upgrader: {
+    miner: {
+      population: 1,
+      initialMemory: {
+        role: 'miner',
+        class: 'miner'
+      },
+      priority: 4,
+      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]
+    },
+    builder: {
       population: 0,
+      initialMemory: {
+        role: 'builder',
+      class: 'builder',
+        building: false
+      },
+      priority: 1,
+      parts: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 800
+    },
+    upgrader: {
+      population: 2,
       initialMemory: {
         role: 'upgrader',
         class: 'upgrader'
       },
       priority: 3,
-      parts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE] // 500
+      parts: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     repairer: {
       population: 0,
@@ -51,7 +51,7 @@ export const W3N5: RoomSettings = {
       },
       priority: 2,
       parts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE] // 500
-    }
+    },
     // pioneer: {
     //   population: 0,
     //   initialMemory: {
@@ -61,16 +61,16 @@ export const W3N5: RoomSettings = {
     //   priority: 5,
     //   parts: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1250
     // },
-    // cleaner: {
-    //   population: 1,
-    //   initialMemory: {
-    //     role: 'cleaner',
-    //     class: 'cleaner',
-    //     cleaning: true
-    //   },
-    //   priority: 6,
-    //   parts: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
-    // },
+    cleaner: {
+      population: 1,
+      initialMemory: {
+        role: 'cleaner',
+        class: 'cleaner',
+        cleaning: true
+      },
+      priority: 6,
+      parts: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
+    },
     // remoteHarvester: {
     //   population: 2,
     //   initialMemory: {
@@ -132,132 +132,132 @@ export const W3N5: RoomSettings = {
     //   priority: 12,
     //   parts: [WORK, CARRY, MOVE, MOVE] // 300
     // },
-    // capitolBuilder: {
-    //   population: 0,
-    //   initialMemory: {
-    //     role: 'capitolBuilder',
-    //     class: 'builder',
-    //     arrived: false
-    //   },
-    //   priority: 12,
-    //   parts: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1000
-    // },
-    // capitolMiner: {
-    //   population: 0,
-    //   initialMemory: {
-    //     role: 'capitolMiner',
-    //     class: 'miner',
-    //     arrived: false
-    //   },
-    //   priority: 12,
-    //   parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1050
-    // },
-    // capitolRepairer: {
-    //   population: 1,
-    //   initialMemory: {
-    //     role: 'capitolRepairer',
-    //     class: 'repairer',
-    //     arrived: false
-    //   },
-    //   priority: 12,
-    //   parts: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
-    // },
-    // capitolDefender: {
-    //   population: 0,
-    //   initialMemory: {
-    //     role: 'capitolDefender',
-    //     class: 'dealer',
-    //     arrived: false
-    //   },
-    //   priority: 12,
-    //   parts: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK] // 1290
-    // },
-    // capitolHealer: {
-    //   population: 0,
-    //   initialMemory: {
-    //     role: 'capitolHealer',
-    //     class: 'healer',
-    //     arrived: false
-    //   },
-    //   priority: 12,
-    //   parts: [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, HEAL, HEAL, HEAL, HEAL] // 1300
-    // },
-    // capitolHauler: {
-    //   population: 0,
-    //   initialMemory: {
-    //     role: 'capitolHauler',
-    //     class: 'hauler',
-    //     arrived: false
-    //   },
-    //   priority: 12,
-    //   parts: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1300
-    // }
+    capitolBuilder: {
+      population: 0,
+      initialMemory: {
+        role: 'capitolBuilder',
+        class: 'builder',
+        arrived: false
+      },
+      priority: 12,
+      parts: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1000
+    },
+    capitolMiner: {
+      population: 3,
+      initialMemory: {
+        role: 'capitolMiner',
+        class: 'miner',
+        arrived: false
+      },
+      priority: 12,
+      parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE] // 1050
+    },
+    capitolRepairer: {
+      population: 1,
+      initialMemory: {
+        role: 'capitolRepairer',
+        class: 'repairer',
+        arrived: false
+      },
+      priority: 12,
+      parts: [WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 750
+    },
+    capitolDefender: {
+      population: 0,
+      initialMemory: {
+        role: 'capitolDefender',
+        class: 'dealer',
+        arrived: false
+      },
+      priority: 12,
+      parts: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK] // 1290
+    },
+    capitolHealer: {
+      population: 0,
+      initialMemory: {
+        role: 'capitolHealer',
+        class: 'healer',
+        arrived: false
+      },
+      priority: 12,
+      parts: [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, HEAL, HEAL, HEAL, HEAL] // 1300
+    },
+    capitolHauler: {
+      population: 0,
+      initialMemory: {
+        role: 'capitolHauler',
+        class: 'hauler',
+        arrived: false
+      },
+      priority: 12,
+      parts: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE] // 1300
+    }
   },
   dispatch: {
     harvester: {
       fromRoom: 'W3N7',
       fromSpawn: 'Spawn2',
-      population: 1,
+      population: 0,
       initialMemory: {
         role: 'harvester',
         class: 'harvester',
         dispatch: true,
         dispatchSite: 'W3N5',
-        arrived: false
+        dispatchSiteArrived: false
       },
       parts: [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE]
     },
     builder: {
-      fromRoom: 'W1N7',
-      fromSpawn: 'Spawn1',
-      population: 1,
+      fromRoom: 'W3N7',
+      fromSpawn: 'Spawn2',
+      population: 0,
       initialMemory: {
         role: 'builder',
         class: 'builder',
         building: false,
         dispatch: true,
         dispatchSite: 'W3N5',
-        arrived: false
+        dispatchSiteArrived: false
       },
       parts: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     miner: {
       fromRoom: 'W3N7',
       fromSpawn: 'Spawn2',
-      population: 1,
+      population: 0,
       initialMemory: {
         role: 'miner',
         class: 'miner',
         dispatch: true,
         dispatchSite: 'W3N5',
-        arrived: false
+        dispatchSiteArrived: false
       },
       parts: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]
     },
     upgrader: {
-      fromRoom: 'W1N7',
-      fromSpawn: 'Spawn1',
-      population: 3,
+      fromRoom: 'W3N7',
+      fromSpawn: 'Spawn2',
+      population: 0,
       initialMemory: {
         role: 'upgrader',
         class: 'upgrader',
         dispatch: true,
         dispatchSite: 'W3N5',
-        arrived: false
+        dispatchSiteArrived: false
       },
       parts: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     repairer: {
-      fromRoom: 'W1N7',
-      fromSpawn: 'Spawn1',
-      population: 1,
+      fromRoom: 'W3N7',
+      fromSpawn: 'Spawn2',
+      population: 0,
       initialMemory: {
         role: 'repairer',
         class: 'repairer',
         repairing: false,
         dispatch: true,
         dispatchSite: 'W3N5',
-        arrived: false
+        dispatchSiteArrived: false
       },
       parts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE] // 500
     }

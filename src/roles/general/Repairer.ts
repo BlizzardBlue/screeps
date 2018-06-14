@@ -1,4 +1,5 @@
-import {intel} from '../../config/intel';
+const _ = require('lodash');
+
 import {GeneralRole} from './GeneralRole';
 
 /**
@@ -12,15 +13,25 @@ export class Repairer extends GeneralRole {
   }
 
   public run() {
-    // 파견지에 도착하면 메모리의 arrived값 true로 변경
-    if (this.dispatch && this.creep.pos.inRangeTo(new RoomPosition(21, 29, this.dispatchSite), 4)) {
+    // 파견지에 도착하면 메모리의 dispatchSiteArrived값 true로 변경
+    if (this.dispatch
+      && !this.dispatchSiteArrived
+      && this.creep.room.name === this.creep.memory.dispatchSite
+      && _.inRange(this.creep.pos.x, 2, 47)
+      && _.inRange(this.creep.pos.y, 2, 47)) {
       this.creep.say('도착!', true);
-      this.creep.memory.arrived = true;
+      this.creep.memory.dispatchSiteArrived = true;
+    }
+
+    // 도착한 다음에 다른 방으로 이동해버릴경우, 다시 돌아오도록 하기 위함
+    // TODO: 개선 필요
+    if (this.dispatch && this.creep.room.name !== this.dispatchSite) {
+      this.creep.memory.dispatchSiteArrived = false;
     }
 
     // 파견근무용 크립일경우 파견지로 이동
-    if (this.dispatch && !this.arrived) {
-      this.creep.say(`${this.dispatchSite}로 가는 중!`, true);
+    if (this.dispatch && !this.dispatchSiteArrived) {
+      this.creep.say(`${this.dispatchSite}로 파견가요`, true);
       return this.navigate.toDispatchSite();
     }
 
@@ -66,7 +77,7 @@ export class Repairer extends GeneralRole {
         // try to repair it, if it is out of range
         if (this.creep.repair(structure) === ERR_NOT_IN_RANGE) {
           // move towards it
-          this.creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          this.creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
         }
       }
       // // if we can't fine one
@@ -86,7 +97,7 @@ export class Repairer extends GeneralRole {
         // try to withdraw energy, if the container is not in range
         if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
-          this.creep.moveTo(container, {reusePath: 1});
+          this.creep.moveTo(container, {reusePath: 4});
         }
       } else {
         // find closest source
@@ -94,7 +105,7 @@ export class Repairer extends GeneralRole {
         // try to harvest energy, if the source is not in range
         if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
           // move towards it
-          this.creep.moveTo(source, {reusePath: 1});
+          this.creep.moveTo(source, {reusePath: 4});
         }
       }
     }

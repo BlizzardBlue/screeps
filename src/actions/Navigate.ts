@@ -18,22 +18,23 @@ export class Navigate {
   // 플래그로 이동
   public toFlag(flag: Flag): CreepMoveReturnCode | ERR_NO_PATH | ERR_INVALID_TARGET | ERR_NOT_FOUND | void {
     if (!this.creep.pos.isEqualTo(flag.pos)) {
-      return this.creep.moveTo(flag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+      return this.creep.moveTo(flag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
     } else if (this.creep.pos.isEqualTo(flag.pos)) {
       this.creep.memory.arrived = true;
     }
   }
 
-  // // 방으로 이동
-  // public toRoom(roomName: string): any {
-  //   const route = Game.map.findRoute(this.creep.room.name, roomName) as any; // TODO: 타이핑 개선
-  //   console.log(JSON.stringify(route, null, 2));
-  //   if (route.length > 0) {
-  //     this.creep.say(`${roomName} 가는 중!`, true);
-  //     const exit = this.creep.pos.findClosestByRange(route[0].exit);
-  //     return this.creep.moveTo(exit, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
-  //   }
-  // }
+  // 방으로 이동
+  public toRoom(roomName: string): any {
+    this.creep.say(`${roomName}로 가는 중`, true);
+    return this.creep.moveTo(new RoomPosition(25, 25, roomName), {visualizePathStyle: {stroke: '#ffffff'}});
+    // const route = Game.map.findRoute(this.creep.room.name, roomName) as any; // TODO: 타이핑 개선
+    // if (route.length > 0) {
+    //   this.creep.say(`${roomName} 가는 중!`, true);
+    //   const exit = this.creep.pos.findClosestByRange(route[0].exit);
+    //   return this.creep.moveTo(exit, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
+    // }
+  }
 
   // 집으로 귀환
   public toHome(): number {
@@ -46,7 +47,7 @@ export class Navigate {
   public toDispatchSite(): any {
     const dispatchSite: string = this.creep.memory.dispatchSite;
     // return this.creep.moveTo(Game.rooms[dispatchSite].controller);
-    return this.creep.moveTo(new RoomPosition(21, 29, dispatchSite));
+    return this.creep.moveTo(new RoomPosition(21, 29, dispatchSite), {visualizePathStyle: {stroke: '#009aff'}});
     // return this.toRoom(dispatchSite);
   }
 
@@ -74,15 +75,15 @@ export class Navigate {
     }
 
     if (!this.creep.memory.waypoint2Arrived) {
-      return this.creep.moveTo(this.capitolWaypoint2Flag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 1});
+      return this.creep.moveTo(this.capitolWaypoint2Flag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 4});
     }
 
     if (!this.creep.memory.waypointArrived) {
-      return this.creep.moveTo(this.capitolWaypointFlag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 1});
+      return this.creep.moveTo(this.capitolWaypointFlag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 4});
     }
 
     if (!this.creep.memory.arrived) {
-      return this.creep.moveTo(this.homeEntrance, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 3});
+      return this.creep.moveTo(this.homeEntrance, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 4});
     }
   }
 
@@ -102,20 +103,20 @@ export class Navigate {
     }
 
     if (!this.creep.memory.waypointArrived) {
-      return this.creep.moveTo(this.capitolWaypointFlag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 3});
+      return this.creep.moveTo(this.capitolWaypointFlag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 4});
     }
 
     if (!this.creep.memory.waypoint2Arrived) {
-      return this.creep.moveTo(this.capitolWaypoint2Flag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 1});
+      return this.creep.moveTo(this.capitolWaypoint2Flag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 4});
     }
 
     if (!this.creep.memory.arrived) {
-      return this.creep.moveTo(this.capitolEntrance, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 1});
+      return this.creep.moveTo(this.capitolEntrance, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 4});
     }
   }
 
   // 비상시 캐피톨 근처 피난처로 이동
   public toCapitolSafeRoom(): any {
-    return this.creep.moveTo(this.capitolWaypointFlag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 1});
+    return this.creep.moveTo(this.capitolWaypointFlag, {visualizePathStyle: {stroke: '#bb48ff'}, reusePath: 4});
   }
 }

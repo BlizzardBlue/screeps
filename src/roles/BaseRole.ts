@@ -20,6 +20,7 @@ export class BaseRole {
   public spawn: string; // 태어난 스폰
   public dispatch: boolean; // 파견근무 여부
   public dispatchSite: string; // 파견지
+  public dispatchSiteArrived: boolean; // 파견지 도착 여부
   public reservedSourceId?: string; // 예약한 소스ID
   public arrived?: boolean; // 목적지 도착 여부
   public underEvacuation?: boolean; // 대피 여부
@@ -36,6 +37,7 @@ export class BaseRole {
     this.spawn = creep.memory.spawn;
     this.dispatch = creep.memory.dispatch;
     this.dispatchSite = creep.memory.dispatchSite;
+    this.dispatchSiteArrived = creep.memory.dispatchSiteArrived;
     this.reservedSourceId = creep.memory.reservedSourceId;
     this.arrived = creep.memory.arrived;
     this.underEvacuation = creep.memory.underEvacuation;
@@ -44,10 +46,34 @@ export class BaseRole {
     this.navigate = new Navigate(creep);
   }
 
+  // 집에서 수명 연장
+  protected renewAtHome(): any {
+    if (this.creep.room.name !== this.creep.memory.home) {
+      this.creep.say('💞', true);
+      return this.navigate.toHome();
+    } else {
+      this.creep.say('💞', true);
+      const spawn: StructureSpawn = this.creep.room.find(FIND_MY_SPAWNS)[0];
+      const renewResult = spawn.renewCreep(this.creep);
+      switch (renewResult) {
+        case OK:
+          return true;
+        case ERR_BUSY:
+          return this.creep.moveTo(spawn, {reusePath: 4});
+        case ERR_NOT_ENOUGH_ENERGY: // TODO: 근처에서 에너지 가져오기
+          return this.creep.say(`Err: ${renewResult}`);
+        // return this.creep.
+        case ERR_NOT_IN_RANGE:
+          return this.creep.moveTo(spawn, {reusePath: 4});
+        default:
+          return this.creep.say(`Err: ${renewResult}`);
+      }
+    }
+  }
+
   // 파견지에서 수명 연장
   protected renewAtDispatchSite(): any {
     if (this.creep.room.name !== this.dispatchSite) {
-      console.log('afsdaf');
       return this.navigate.toDispatchSite();
     } else {
       this.creep.say('💞');
@@ -57,14 +83,34 @@ export class BaseRole {
         case OK:
           return true;
         case ERR_BUSY:
-          return this.creep.moveTo(spawn, {reusePath: 1});
+          return this.creep.moveTo(spawn, {reusePath: 4});
         case ERR_NOT_ENOUGH_ENERGY: // TODO: 근처에서 에너지 가져오기
           return this.creep.say(`Err: ${renewResult}`);
           // return this.creep.
         case ERR_NOT_IN_RANGE:
-          return this.creep.moveTo(spawn, {reusePath: 1});
+          return this.creep.moveTo(spawn, {reusePath: 4});
         default:
           return this.creep.say(`Err: ${renewResult}`);
+      }
+    }
+  }
+
+  // 집에서 리사이클
+  protected recycleAtHome(): any {
+    if (this.creep.room.name !== this.creep.memory.home) {
+      this.creep.say('♻️', true);
+      return this.navigate.toHome();
+    } else {
+      this.creep.say('♻️', true);
+      const spawn: StructureSpawn = this.creep.room.find(FIND_MY_SPAWNS)[0];
+      const recycleResult = spawn.recycleCreep(this.creep);
+      switch (recycleResult) {
+        case OK:
+          return true;
+        case ERR_NOT_IN_RANGE:
+          return this.creep.moveTo(spawn, {reusePath: 4});
+        default:
+          return this.creep.say(`Err: ${recycleResult}`);
       }
     }
   }

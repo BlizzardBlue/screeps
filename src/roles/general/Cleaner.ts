@@ -31,16 +31,18 @@ export class Cleaner extends GeneralRole {
           return _.sum(tombstone.store) > 0;
         }
       });
-      const droppedResource = this.creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+      const droppedResource = this.creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
+        filter: resource => resource.amount > 100
+      });
 
       if (tombstone) {
         for (const resourceType of Object.keys(tombstone.store)) {
           if (this.creep.withdraw(tombstone, resourceType as ResourceConstant) === ERR_NOT_IN_RANGE) {
-            this.creep.moveTo(tombstone, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 2});
+            this.creep.moveTo(tombstone, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
           }
         }
       } else if (this.creep.pickup(droppedResource) === ERR_NOT_IN_RANGE) {
-        this.creep.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 2});
+        this.creep.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       } else if (!tombstone && !droppedResource) {
         this.storageModel.transfer();
       }
@@ -57,7 +59,7 @@ export class Cleaner extends GeneralRole {
         });
         if (container) {
           if (this.creep.transfer(container, 'energy') === ERR_NOT_IN_RANGE) {
-            this.creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 2});
+            this.creep.moveTo(container, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
           }
         }
       }

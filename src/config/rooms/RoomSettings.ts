@@ -1,8 +1,8 @@
 export interface RoomSettings {
-  spawn: {
+  spawn?: {
     name: string;
   };
-  creep: {
+  creep?: {
     [creepType: string]: {
       population: number;
       initialMemory: any;

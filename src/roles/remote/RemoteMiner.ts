@@ -22,10 +22,10 @@ export const remoteMiner = {
         creep.harvest(source);
       } else {
         // move towards it
-        creep.moveTo(container, {reusePath: 1});
+        creep.moveTo(container, {reusePath: 4});
       }
     } else {
-      creep.moveToRoom(targetRoomName);
+      // creep.moveTo(targetRoomName);
     }
   }
 };

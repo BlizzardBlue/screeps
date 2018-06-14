@@ -22,7 +22,7 @@ export class MineralMiner extends GeneralRole {
       // 미네랄 채굴 시작
       this.creep.harvest(mineral);
     } else {
-      this.creep.moveTo(container, {reusePath: 1});
+      this.creep.moveTo(container, {reusePath: 4});
     }
   }
 }

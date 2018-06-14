@@ -17,7 +17,6 @@ export class CreepMemoryCleaner {
       // 만약 파견직 크립이었다면 파견지의 RoomMemory도 청소
       if (this.creepMemory.dispatch) {
         this.pullFromDispatchFulfillmentMemory(this.creepName, this.creepMemory.dispatchSite);
-        console.log(`[Task] Pulled from dispatch fulfillment memory: ${this.creepName}`);
       }
       // Creep 메모리 청소
       delete Memory.creeps[this.creepName];
@@ -28,8 +27,9 @@ export class CreepMemoryCleaner {
   // 파견지 근무자 명부에서 제거
   private pullFromDispatchFulfillmentMemory(creepName: string, dispatchSite: string): void {
     // 리스트에서 제거
-    Game.rooms[dispatchSite].memory.dispatchFulfillment[this.role].creeps = _.pull(Game.rooms[dispatchSite].memory.dispatchFulfillment[this.role].creeps, creepName);
+    _.pull(Memory.rooms[dispatchSite].dispatchFulfillment[this.role].creeps, creepName);
+    console.log(`[Task] Pulled from dispatch fulfillment memory: ${this.creepName} (${dispatchSite})`);
     // 파견 근무자 수 갱신
-    Game.rooms[dispatchSite].memory.dispatchFulfillment[this.role].count = Game.rooms[dispatchSite].memory.dispatchFulfillment[this.role].creeps.length;
+    Memory.rooms[dispatchSite].dispatchFulfillment[this.role].count = Memory.rooms[dispatchSite].dispatchFulfillment[this.role].creeps.length;
   }
 }

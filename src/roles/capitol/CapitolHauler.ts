@@ -28,10 +28,10 @@ export class CapitolHauler extends CapitolRole {
     //         console.log(`[Spawn | ${spawn.name}] Recycled: ${creep.name}`);
     //         break;
     //       case ERR_BUSY:
-    //         creep.moveTo(spawn, {reusePath: 1});
+    //         creep.moveTo(spawn, {reusePath: 4});
     //         break;
     //       case ERR_NOT_IN_RANGE:
-    //         creep.moveTo(spawn, {reusePath: 1});
+    //         creep.moveTo(spawn, {reusePath: 4});
     //         break;
     //       default:
     //         creep.say(`Err: ${renewResult}`);
@@ -56,10 +56,10 @@ export class CapitolHauler extends CapitolRole {
           console.log(`[Spawn | ${spawn.name}] Recycled: ${this.creep.name}`);
           break;
         case ERR_BUSY:
-          this.creep.moveTo(spawn, {reusePath: 1});
+          this.creep.moveTo(spawn, {reusePath: 4});
           break;
         case ERR_NOT_IN_RANGE:
-          this.creep.moveTo(spawn, {reusePath: 1});
+          this.creep.moveTo(spawn, {reusePath: 4});
           break;
         default:
           this.creep.say(`Err: ${renewResult}`);
@@ -106,11 +106,11 @@ export class CapitolHauler extends CapitolRole {
       });
       if (!_.isNull(droppedResource)) {
         if (this.creep.pickup(droppedResource) === ERR_NOT_IN_RANGE) {
-          this.creep.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          this.creep.moveTo(droppedResource, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
         }
       } else if (!_.isNull(container)) {
         if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          this.creep.moveTo(container, {reusePath: 1});
+          this.creep.moveTo(container, {reusePath: 4});
         }
       }
     }

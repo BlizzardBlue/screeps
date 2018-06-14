@@ -19,7 +19,7 @@ export class Pioneer extends GeneralRole {
     // const attackTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     // if (attackTarget) {
     //   if (creep.attack(attackTarget) === ERR_NOT_IN_RANGE) {
-    //     creep.moveTo(attackTarget, {reusePath: 1});
+    //     creep.moveTo(attackTarget, {reusePath: 4});
     //   }
     //   return;
     // }
@@ -49,7 +49,7 @@ export class Pioneer extends GeneralRole {
     if (this.creep.memory.harvesting) {
       const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
       if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
-        return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       }
     }
 
@@ -64,7 +64,7 @@ export class Pioneer extends GeneralRole {
 
     if (!this.creep.memory.ready && !this.creep.memory.harvesting) {
       if (this.creep.room.name !== intel.rooms[this.home].name) {
-        this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        this.creep.moveTo(entrance, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       } else {
         this.storageModel.withdraw('energy');
       }
@@ -72,12 +72,12 @@ export class Pioneer extends GeneralRole {
 
     if (this.creep.memory.ready) {
       if (!this.creep.memory.arrived) {
-        this.creep.moveTo(this.targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+        this.creep.moveTo(this.targetFlag, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
       } else {
         const target: ConstructionSite = this.creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
         if (target) {
           if (this.creep.build(target) === ERR_NOT_IN_RANGE) {
-            this.creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+            this.creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 4});
           }
         }
       }

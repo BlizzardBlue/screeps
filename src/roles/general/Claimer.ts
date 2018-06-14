@@ -24,7 +24,7 @@ export class Claimer extends GeneralRole {
       case OK:
         break;
       case ERR_NOT_IN_RANGE:
-        this.creep.moveTo(this.creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 1});
+        this.creep.moveTo(this.creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}, reusePath: 4});
         break;
       default:
         this.creep.say(`Err: ${claimResult}`, true);

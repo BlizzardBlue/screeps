@@ -10,6 +10,7 @@ import {Cleaner} from './general/Cleaner';
 import {Defender} from './general/Defender';
 import {Explorer} from './general/Explorer';
 import {Harvester} from './general/Harvester';
+import {Hauler} from './general/Hauler';
 import {Miner} from './general/Miner';
 import {Miner2} from './general/Miner2';
 import {MineralMiner} from './general/MineralMiner';
@@ -37,6 +38,7 @@ export const roleMap: RoleMap = {
   defender: Defender,
   explorer: Explorer,
   harvester: Harvester,
+  hauler: Hauler,
   miner: Miner,
   miner2: Miner2,
   mineralMiner: MineralMiner,

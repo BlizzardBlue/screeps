@@ -6,7 +6,6 @@ interface Intel {
     [roomName: string]: {
       name: string;
       alias?: string;
-      object: Room;
       sources?: {
         primary: {
           id: string;
@@ -62,7 +61,6 @@ export const intel: Intel = {
     W1N7: {
       name: 'W1N7',
       alias: 'headquarter',
-      object: Game.rooms.W1N7,
       entrance: {
         roomPosition: new RoomPosition(36, 26, 'W1N7'),
         x: 36,
@@ -92,9 +90,27 @@ export const intel: Intel = {
         y: 35
       }
     },
+    W2N5: {
+      name: 'W2N5',
+      sources: {
+        primary: {
+          id: '95d107748ae4e46',
+          roomPosition: new RoomPosition(13, 39, 'W2N5'),
+          seats: 4,
+          x: 13,
+          y: 39
+        },
+        secondary: {
+          id: '31ef07748aec3a4',
+          roomPosition: new RoomPosition(15, 41, 'W2N5'),
+          seats: 4,
+          x: 15,
+          y: 41
+        }
+      }
+    },
     W2N7: {
       name: 'W2N7',
-      object: Game.rooms.W2N7,
       sources: {
         primary: {
           id: '25020774762401f',
@@ -112,34 +128,8 @@ export const intel: Intel = {
         }
       }
     },
-    W3N7: {
-      name: 'W3N7',
-      object: Game.rooms.W3N7,
-      entrance: {
-        roomPosition: new RoomPosition(35, 27, 'W3N7'),
-        x: 35,
-        y: 27
-      },
-      sources: {
-        primary: {
-          id: 'eee50774086309c',
-          roomPosition: new RoomPosition(38, 3, 'W3N7'),
-          seats: 4,
-          x: 38,
-          y: 3
-        },
-        secondary: {
-          id: 'eff307740862fd8',
-          roomPosition: new RoomPosition(12, 21, 'W3N7'),
-          seats: 4,
-          x: 12,
-          y: 21
-        }
-      }
-    },
     W3N5: {
       name: 'W3N5',
-      object: Game.rooms.W3N5,
       entrance: {
         roomPosition: new RoomPosition(25, 5, 'W3N5'),
         x: 25,
@@ -162,10 +152,88 @@ export const intel: Intel = {
         y: 17
       }
     },
+    W3N6: {
+      name: 'W3N6',
+      sources: {
+        primary: {
+          id: '4ae507741489546',
+          roomPosition: new RoomPosition(27, 12, 'W3N6'),
+          seats: 1,
+          x: 27,
+          y: 12
+        },
+        secondary: {
+          id: 'c43d0774148f19c',
+          roomPosition: new RoomPosition(46, 30, 'W3N6'),
+          seats: 3,
+          x: 46,
+          y: 30
+        }
+      }
+    },
+    W3N7: {
+      name: 'W3N7',
+      entrance: {
+        roomPosition: new RoomPosition(35, 27, 'W3N7'),
+        x: 35,
+        y: 27
+      },
+      sources: {
+        primary: {
+          id: 'eee50774086309c',
+          roomPosition: new RoomPosition(38, 3, 'W3N7'),
+          seats: 4,
+          x: 38,
+          y: 3
+        },
+        secondary: {
+          id: 'eff307740862fd8',
+          roomPosition: new RoomPosition(12, 21, 'W3N7'),
+          seats: 4,
+          x: 12,
+          y: 21
+        }
+      }
+    },
+    W3N8: {
+      name: 'W3N8',
+      entrance: {
+        roomPosition: new RoomPosition(32, 46, 'W3N8'),
+        x: 32,
+        y: 46
+      },
+      sources: {
+        primary: {
+          id: 'ebdd0774017409d',
+          roomPosition: new RoomPosition(42, 36, 'W3N8'),
+          seats: 4,
+          x: 42,
+          y: 36
+        },
+        secondary: {
+          id: '9d330774017e6b9',
+          roomPosition: new RoomPosition(35, 4, 'W3N8'),
+          seats: 4,
+          x: 35,
+          y: 4
+        }
+      }
+    },
+    W4N7: {
+      name: 'W4N7',
+      sources: {
+        primary: {
+          id: 'bca30773a345a6a',
+          roomPosition: new RoomPosition(44, 34, 'W4N7'),
+          seats: 2,
+          x: 44,
+          y: 34
+        }
+      }
+    },
     W5N5: {
       name: 'W5N5',
       alias: 'capitol',
-      object: Game.rooms.W5N5,
       entrance: {
         roomPosition: new RoomPosition(47, 31, 'W5N5'),
         x: 47,

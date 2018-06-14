@@ -31,10 +31,10 @@ export class CapitolRepairer extends CapitolRole {
     //         console.log(`[Spawn | ${spawn.name}] Recycled: ${creep.name}`);
     //         break;
     //       case ERR_BUSY:
-    //         creep.moveTo(spawn, {reusePath: 1});
+    //         creep.moveTo(spawn, {reusePath: 4});
     //         break;
     //       case ERR_NOT_IN_RANGE:
-    //         creep.moveTo(spawn, {reusePath: 1});
+    //         creep.moveTo(spawn, {reusePath: 4});
     //         break;
     //       default:
     //         creep.say(`Err: ${renewResult}`);
@@ -87,12 +87,12 @@ export class CapitolRepairer extends CapitolRole {
         // try to withdraw energy, if the container is not in range
         if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           // move towards it
-          this.creep.moveTo(container, {reusePath: 1});
+          this.creep.moveTo(container, {reusePath: 4});
         }
       } else {
         const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 1});
+          return this.creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}, reusePath: 4});
         }
       }
     }

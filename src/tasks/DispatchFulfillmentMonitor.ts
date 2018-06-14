@@ -20,15 +20,16 @@ export class DispatchFulfillmentMonitor {
     if (this.dispatchSite) {
       // 메모리 초기화
       // this.initialize();
-      this.fulfillingCreeps = Game.rooms[this.dispatchSite].memory.dispatchFulfillment[this.role].creeps;
+      this.fulfillingCreeps = Memory.rooms[this.dispatchSite].dispatchFulfillment[this.role].creeps;
       // 파견지 근무자 명부에 이름이 올라가있는지 확인
       const isIn: number = _.indexOf(this.fulfillingCreeps, this.creep.name);
       if (isIn === -1) {
         // 없으면 올림
-        Game.rooms[this.dispatchSite].memory.dispatchFulfillment[this.role].creeps.push(this.creep.name);
+        Memory.rooms[this.dispatchSite].dispatchFulfillment[this.role].creeps.push(this.creep.name);
+        console.log(`[Task | DispatchFulfillmentMonitor] Pushed unlisted creep: ${this.creep.name} (${this.dispatchSite})`);
       }
       // 파견 근무자 수 갱신
-      Game.rooms[this.dispatchSite].memory.dispatchFulfillment[this.role].count = Game.rooms[this.dispatchSite].memory.dispatchFulfillment[this.role].creeps.length;
+      Memory.rooms[this.dispatchSite].dispatchFulfillment[this.role].count = Memory.rooms[this.dispatchSite].dispatchFulfillment[this.role].creeps.length;
     }
   }
 
@@ -36,8 +37,8 @@ export class DispatchFulfillmentMonitor {
   // public initialize(): void {
   //   // TODO: 별도의 모듈로 뺌. RoomMemoryInitializer에 보내는 방법 생각해보기.
   //   console.log(this.dispatchSite);
-  //   if (_.isUndefined(Game.rooms[this.dispatchSite].memory.dispatchFulfillment[this.role])) {
-  //     Game.rooms[this.dispatchSite].memory.dispatchFulfillment[this.role] = {
+  //   if (_.isUndefined(Memory.rooms[this.dispatchSite].dispatchFulfillment[this.role])) {
+  //     Memory.rooms[this.dispatchSite].dispatchFulfillment[this.role] = {
   //       creeps: [],
   //       count: 0,
   //       spawnQueued: 0

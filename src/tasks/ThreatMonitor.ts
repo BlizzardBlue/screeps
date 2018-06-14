@@ -15,10 +15,13 @@ export class ThreatMonitor {
     const alert: boolean = !_.isEmpty(invader);
     const invaderExpireAt = this.room.memory.invaderExpireAt;
     if (alert) {
+      if (!this.room.memory.invader) {
+        console.log(`[Alert | Watchtower] Invader alert: ${this.room.name}`);
+        this.room.memory.invaderExpireAt = Game.time + 1500;
+      }
       this.room.memory.invader = true;
-    }
-    if (alert && !invaderExpireAt) {
-      this.room.memory.invaderExpireAt = Game.time + 1500;
+    } else {
+      this.room.memory.invader = false;
     }
   }
 
@@ -27,6 +30,14 @@ export class ThreatMonitor {
     const hostile = this.room.find(FIND_HOSTILE_CREEPS, {
       filter: creep => creep.owner.username !== 'Invader'
     });
-    this.room.memory.hostile = !_.isEmpty(hostile);
+    const alert: boolean = !_.isEmpty(hostile);
+    if (alert) {
+      if (!this.room.memory.hostile) {
+        console.log(`[Alert | Watchtower] Hostile alert: ${this.room.name}`);
+      }
+      this.room.memory.hostile = true;
+    } else {
+      this.room.memory.hostile = false;
+    }
   }
 }

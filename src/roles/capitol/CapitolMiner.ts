@@ -26,10 +26,10 @@ export class CapitolMiner extends CapitolRole {
     //         console.log(`[Spawn | ${spawn.name}] Recycled: ${creep.name}`);
     //         break;
     //       case ERR_BUSY:
-    //         creep.moveTo(spawn, {reusePath: 1});
+    //         creep.moveTo(spawn, {reusePath: 4});
     //         break;
     //       case ERR_NOT_IN_RANGE:
-    //         creep.moveTo(spawn, {reusePath: 1});
+    //         creep.moveTo(spawn, {reusePath: 4});
     //         break;
     //       default:
     //         creep.say(`Err: ${renewResult}`);
@@ -50,8 +50,8 @@ export class CapitolMiner extends CapitolRole {
     // }
 
     if (this.creep.memory.reservedSourceId) {
-      // 공격받기 시작하거나 3틱안에 수명이 다하면 소스 예약 해제
-      if (this.creep.hits < this.creep.hitsMax || this.creep.ticksToLive < 3) {
+      // 공격받기 시작하거나 다음틱에 수명이 다하면 소스 예약 해제
+      if (this.creep.hits < this.creep.hitsMax || this.creep.ticksToLive === 1) {
         return this.roomMemoryModel.releaseSource(this.creep.memory.reservedSourceId);
       }
     }
@@ -88,13 +88,16 @@ export class CapitolMiner extends CapitolRole {
 
         // 소스 근처 컨테이너 없으면
         if (!container) {
+          // if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
+          //   this.creep.moveTo(source, {reusePath: 4});
+          // }
           this.creep.say('컨테이너가 없어요!', true);
         } else {
           // 마이너가 컨테이너 위에 올라가있으면 채굴 시작
           if (this.creep.pos.isEqualTo(container.pos)) {
             this.creep.harvest(source);
           } else {
-            this.creep.moveTo(container, {reusePath: 1});
+            this.creep.moveTo(container, {reusePath: 4});
           }
         }
       }
